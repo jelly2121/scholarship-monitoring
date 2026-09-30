@@ -1,8 +1,20 @@
-```javascript
-/* ==========================================
-   SCHOLARTRACK DASHBOARD
-   Uses the same localStorage data as Students
-========================================== */
+function getData(key) {
+
+    try {
+
+        const data = localStorage.getItem(key);
+
+        return data ? JSON.parse(data) : [];
+
+    } catch (error) {
+
+        console.error("Error loading data:", error);
+
+        return [];
+
+    }
+
+}
 
 
 /* ==========================================
@@ -48,8 +60,10 @@ function loadDashboard() {
 
         const activeScholars =
             students.filter(student =>
-                String(student.status)
+
+                String(student.status || "")
                     .toLowerCase() === "active"
+
             ).length;
 
 
@@ -130,8 +144,9 @@ function loadDashboard() {
 
         renderRecentStudents(students);
 
+    }
 
-    } catch (error) {
+    catch (error) {
 
         console.error(
             "Dashboard error:",
@@ -156,7 +171,9 @@ function renderRecentStudents(students) {
 
 
     if (!table) {
+
         return;
+
     }
 
 
@@ -170,6 +187,7 @@ function renderRecentStudents(students) {
     if (!students.length) {
 
         table.innerHTML = `
+
             <tr>
 
                 <td
@@ -186,6 +204,7 @@ function renderRecentStudents(students) {
                 </td>
 
             </tr>
+
         `;
 
         return;
@@ -210,8 +229,19 @@ function renderRecentStudents(students) {
 
     recentStudents.forEach(student => {
 
+        /* =========================
+           SUPPORT BOTH NAME FIELDS
+        ========================= */
+
+        const studentName =
+            student.full_name ||
+            student.name ||
+            "-";
+
+
         const status =
-            student.status || "Inactive";
+            student.status ||
+            "Active";
 
 
         const statusClass =
@@ -228,33 +258,53 @@ function renderRecentStudents(students) {
         row.innerHTML = `
 
             <td>
+
                 <span class="student-id">
-                    ${escapeHTML(student.student_id || "-")}
+
+                    ${escapeHTML(
+                        student.student_id || "-"
+                    )}
+
                 </span>
+
             </td>
 
 
             <td>
+
                 <span class="student-name">
-                    ${escapeHTML(student.full_name || "-")}
+
+                    ${escapeHTML(studentName)}
+
                 </span>
+
             </td>
 
 
             <td>
-                ${escapeHTML(student.course || "-")}
+
+                ${escapeHTML(
+                    student.course || "-"
+                )}
+
             </td>
 
 
             <td>
-                ${escapeHTML(student.year_level || "-")}
+
+                ${escapeHTML(
+                    student.year_level || "-"
+                )}
+
             </td>
 
 
             <td>
 
                 <span class="status-badge ${statusClass}">
+
                     ${escapeHTML(status)}
+
                 </span>
 
             </td>
@@ -276,10 +326,15 @@ function renderRecentStudents(students) {
 function escapeHTML(value) {
 
     return String(value)
+
         .replace(/&/g, "&amp;")
+
         .replace(/</g, "&lt;")
+
         .replace(/>/g, "&gt;")
+
         .replace(/"/g, "&quot;")
+
         .replace(/'/g, "&#039;");
 
 }
@@ -297,6 +352,24 @@ function refreshDashboard() {
 
 
 /* ==========================================
+   LISTEN FOR STUDENT UPDATES
+========================================== */
+
+window.addEventListener(
+    "storage",
+    function (event) {
+
+        if (event.key === "students") {
+
+            loadDashboard();
+
+        }
+
+    }
+);
+
+
+/* ==========================================
    LOAD WHEN PAGE OPENS
 ========================================== */
 
@@ -308,3 +381,18 @@ document.addEventListener(
 
     }
 );
+```
+
+### One more important change
+
+When adding a student, save the student with a `status` too:
+
+```javascript
+const student = {
+    student_id: document.getElementById("studentId").value.trim(),
+    full_name: document.getElementById("studentName").value.trim(),
+    course: document.getElementById("studentCourse").value.trim(),
+    year_level: document.getElementById("studentYear").value,
+    contact: document.getElementById("studentContact").value.trim(),
+    status: "Active"
+};

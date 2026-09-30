@@ -1,0 +1,1 @@
+document.getElementById("complianceTable").innerHTML=getData("compliance").map(c=>`<tr><td>${c.student}</td><td>${c.semester}</td><td>${c.school_year}</td><td>${c.gwa}</td><td>${c.attendance}%</td><td>${statusBadge(c.compliance_status)}</td><td>${c.remarks}</td></tr>`).join("");

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>ScholarTrack - Reports</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6fb;
+    color: #24213a;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    background: #211a3d;
+    color: white;
+    padding: 25px 15px;
+    position: fixed;
+    height: 100vh;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 35px;
+    padding-left: 10px;
+}
+
+.nav a {
+    display: flex;
+    gap: 12px;
+    text-decoration: none;
+    color: #ddd9ed;
+    padding: 14px 15px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: #3c3266;
+    color: white;
+}
+
+.logout {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    color: #211a3d;
+    cursor: pointer;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 35px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 30px;
+    color: #272044;
+}
+
+.header p {
+    color: #77748a;
+}
+
+/* BUTTONS */
+
+.buttons button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+.print {
+    background: #3b6798;
+    color: white;
+}
+
+.export {
+    background: #e8eef8;
+    color: #315d91;
+}
+
+/* SUMMARY */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 15px;
+    padding: 22px;
+    box-shadow: 0 3px 15px rgba(0,0,0,.06);
+}
+
+.summary-card span {
+    color: #77748a;
+}
+
+.summary-card h2 {
+    margin: 8px 0 0;
+    font-size: 27px;
+}
+
+/* REPORT CARDS */
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 3px 15px rgba(0,0,0,.06);
+}
+
+.card h2 {
+    margin-top: 0;
+    color: #292348;
+}
+
+.full {
+    grid-column: 1 / -1;
+}
+
+.report-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.report-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.value {
+    color: #315d91;
+    font-weight: bold;
+}
+
+/* PROGRESS */
+
+.progress {
+    height: 12px;
+    background: #e9e9ef;
+    border-radius: 10px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.progress span {
+    display: block;
+    height: 100%;
+    background: #3b6798;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px) {
+
+    .sidebar {
+        width: 200px;
+    }
+
+    .main {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+
+    .summary {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:650px) {
+
+    .app {
+        display: block;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .main {
+        margin: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        display: block;
+    }
+
+    .buttons {
+        margin-top: 15px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .full {
+        grid-column: auto;
+    }
+
+}
+
+@media print {
+
+    .sidebar,
+    .buttons {
+        display: none;
+    }
+
+    .main {
+        margin: 0;
+        width: 100%;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="logo">
+🎓 ScholarTrack
+</div>
+
+<nav class="nav">
+
+<a href="dashboard.html">
+📊 Dashboard
+</a>
+
+<a href="students.html">
+👩‍🎓 Students
+</a>
+
+<a href="scholarships.html">
+🎓 Scholarships
+</a>
+
+<a href="requirements.html">
+📋 Requirements
+</a>
+
+<a href="compliance.html">
+📈 Academic Compliance
+</a>
+
+<a href="reports.html" class="active">
+📑 Reports
+</a>
+
+</nav>
+
+<button class="logout" onclick="logout()">
+↪ Logout
+</button>
+
+</aside>
+
+
+<main class="main">
+
+<div class="header">
+
+<div>
+
+<h1>
+Scholarship Reports
+</h1>
+
+<p>
+View summary reports and scholarship monitoring statistics.
+</p>
+
+</div>
+
+
+<div class="buttons">
+
+<button
+class="export"
+onclick="exportReport()">
+
+⬇ Export
+
+</button>
+
+<button
+class="print"
+onclick="window.print()">
+
+🖨 Print Report
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- SUMMARY -->
+
+<div class="summary">
+
+<div class="summary-card">
+<span>Total Students</span>
+<h2>25</h2>
+</div>
+
+<div class="summary-card">
+<span>Scholarships</span>
+<h2>3</h2>
+</div>
+
+<div class="summary-card">
+<span>Compliant</span>
+<h2>20</h2>
+</div>
+
+<div class="summary-card">
+<span>Pending Requirements</span>
+<h2>1</h2>
+</div>
+
+</div>
+
+
+<!-- REPORTS -->
+
+<div class="grid">
+
+
+<section class="card">
+
+<h2>
+Scholarship Distribution
+</h2>
+
+<div class="report-row">
+
+<span class="label">
+Academic Excellence
+</span>
+
+<span class="value">
+10 scholars
+</span>
+
+</div>
+
+
+<div class="report-row">
+
+<span class="label">
+Government Scholarship
+</span>
+
+<span class="value">
+12 scholars
+</span>
+
+</div>
+
+
+<div class="report-row">
+
+<span class="label">
+Private Foundation
+</span>
+
+<span class="value">
+3 scholars
+</span>
+
+</div>
+
+</section>
+
+
+<section class="card">
+
+<h2>
+Academic Compliance
+</h2>
+
+<div class="report-row">
+
+<span class="label">
+Compliant
+</span>
+
+<span class="value">
+20 / 25
+</span>
+
+</div>
+
+<div class="progress">
+
+<span style="width:80%">
+</span>
+
+</div>
+
+
+<div class="report-row">
+
+<span class="label">
+At Risk
+</span>
+
+<span class="value">
+3 / 25
+</span>
+
+</div>
+
+
+<div class="report-row">
+
+<span class="label">
+Non-Compliant
+</span>
+
+<span class="value">
+2 / 25
+</span>
+
+</div>
+
+</section>
+
+
+<section class="card full">
+
+<h2>
+Requirements Summary
+</h2>
+
+<div class="report-row">
+
+<span class="label">
+Completed Requirements
+</span>
+
+<span class="value">
+4
+</span>
+
+</div>
+
+
+<div class="report-row">
+
+<span class="label">
+Pending Requirements
+</span>
+
+<span class="value">
+1
+</span>
+
+</div>
+
+
+<div class="report-row">
+
+<span class="label">
+Missing Requirements
+</span>
+
+<span class="value">
+1
+</span>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+</div>
+
+
+<script>
+
+function logout() {
+
+localStorage.removeItem("loggedIn");
+
+window.location.href =
+"index.html";
+
+}
+
+
+function exportReport() {
+
+alert(
+"Report export is ready to connect to Supabase."
+);
+
+}
+
+</script>
+
+</body>
+
+</html>

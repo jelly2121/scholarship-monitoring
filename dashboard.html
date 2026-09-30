@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ScholarTrack | Dashboard</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="dashboard-page">
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="sidebar-brand">
+            <div class="brand-logo">🎓</div>
+
+            <div>
+                <h2>ScholarTrack</h2>
+                <span>Scholarship Management</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="dashboard.html" class="nav-item active">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="students.html" class="nav-item">
+                <span class="nav-icon">👨‍🎓</span>
+                <span>Students</span>
+            </a>
+
+            <a href="scholarships.html" class="nav-item">
+                <span class="nav-icon">🎓</span>
+                <span>Scholarships</span>
+            </a>
+
+            <a href="requirements.html" class="nav-item">
+                <span class="nav-icon">📋</span>
+                <span>Requirements</span>
+            </a>
+
+            <a href="compliance.html" class="nav-item">
+                <span class="nav-icon">📚</span>
+                <span>Academic Compliance</span>
+            </a>
+
+            <a href="reports.html" class="nav-item">
+                <span class="nav-icon">📈</span>
+                <span>Reports</span>
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <div class="admin-profile">
+                <div class="admin-avatar">A</div>
+
+                <div class="admin-info">
+                    <strong>Administrator</strong>
+                    <small>Scholarship Admin</small>
+                </div>
+            </div>
+
+            <button id="logoutBtn" class="logout-btn">
+                <span>↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOP HEADER -->
+        <header class="top-header">
+
+            <div>
+                <h1>Dashboard</h1>
+                <p>Welcome back! Here's your scholarship overview.</p>
+            </div>
+
+            <div class="header-date">
+                <span>📅</span>
+                <span id="currentDate"></span>
+            </div>
+
+        </header>
+
+
+        <!-- STATISTICS -->
+        <section class="stats-grid">
+
+            <div class="stat-card students-card">
+
+                <div class="stat-icon">
+                    👨‍🎓
+                </div>
+
+                <div class="stat-info">
+                    <span>Total Students</span>
+                    <strong id="totalStudents">0</strong>
+                    <small>Registered students</small>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card scholarship-card">
+
+                <div class="stat-icon">
+                    🎓
+                </div>
+
+                <div class="stat-info">
+                    <span>Active Scholars</span>
+                    <strong id="activeScholars">0</strong>
+                    <small>Currently active</small>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card requirements-card">
+
+                <div class="stat-icon">
+                    📋
+                </div>
+
+                <div class="stat-info">
+                    <span>Pending Requirements</span>
+                    <strong id="pendingRequirements">0</strong>
+                    <small>Need attention</small>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card compliance-card">
+
+                <div class="stat-icon">
+                    ✅
+                </div>
+
+                <div class="stat-info">
+                    <span>Compliant Students</span>
+                    <strong id="compliantStudents">0</strong>
+                    <small>Meeting requirements</small>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTENT GRID -->
+        <section class="dashboard-grid">
+
+            <!-- RECENT STUDENTS -->
+            <div class="dashboard-panel recent-panel">
+
+                <div class="panel-header">
+
+                    <div>
+                        <h2>Recent Students</h2>
+                        <p>Recently registered scholarship students</p>
+                    </div>
+
+                    <a href="students.html" class="view-all">
+                        View All →
+                    </a>
+
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Full Name</th>
+                                <th>Course</th>
+                                <th>Year Level</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="recentStudentsTable">
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK ACTIONS -->
+            <div class="dashboard-panel quick-panel">
+
+                <div class="panel-header">
+                    <div>
+                        <h2>Quick Actions</h2>
+                        <p>Common tasks</p>
+                    </div>
+                </div>
+
+                <div class="quick-actions">
+
+                    <a href="students.html" class="quick-action">
+                        <span>👨‍🎓</span>
+                        <div>
+                            <strong>Add Student</strong>
+                            <small>Register a new student</small>
+                        </div>
+                        <b>›</b>
+                    </a>
+
+                    <a href="scholarships.html" class="quick-action">
+                        <span>🎓</span>
+                        <div>
+                            <strong>Manage Scholarships</strong>
+                            <small>View scholarship programs</small>
+                        </div>
+                        <b>›</b>
+                    </a>
+
+                    <a href="requirements.html" class="quick-action">
+                        <span>📋</span>
+                        <div>
+                            <strong>Check Requirements</strong>
+                            <small>Monitor submissions</small>
+                        </div>
+                        <b>›</b>
+                    </a>
+
+                    <a href="reports.html" class="quick-action">
+                        <span>📈</span>
+                        <div>
+                            <strong>Generate Report</strong>
+                            <small>View system reports</small>
+                        </div>
+                        <b>›</b>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- SYSTEM STATUS -->
+        <section class="dashboard-panel system-panel">
+
+            <div class="system-status">
+
+                <div class="system-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <strong>System Status</strong>
+                    <p>
+                        Scholarship monitoring system is running normally.
+                    </p>
+                </div>
+
+                <span class="online-badge">
+                    ● Online
+                </span>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- SUPABASE -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="js/supabase.js"></script>
+<script src="js/dashboard.js"></script>
+
+<script>
+
+    // Current date
+    const dateElement = document.getElementById("currentDate");
+
+    const today = new Date();
+
+    dateElement.textContent = today.toLocaleDateString(
+        "en-US",
+        {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric"
+        }
+    );
+
+
+    // Logout
+    document.getElementById("logoutBtn").addEventListener(
+        "click",
+        async function () {
+
+            if (typeof supabaseClient !== "undefined") {
+
+                await supabaseClient.auth.signOut();
+
+            }
+
+            sessionStorage.removeItem("loggedIn");
+
+            window.location.href = "index.html";
+
+        }
+    );
+
+</script>
+
+</body>
+</html>

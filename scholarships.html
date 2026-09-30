@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarTrack - Scholarships</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #24213a;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            background: #211a3d;
+            color: white;
+            padding: 25px 15px;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 10px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ddd9ed;
+            padding: 14px 15px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #3c3266;
+            color: white;
+        }
+
+        .logout {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #211a3d;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            background: #eeeaf8;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 35px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 30px;
+            color: #272044;
+        }
+
+        .page-header p {
+            margin-top: 7px;
+            color: #77748a;
+        }
+
+        .add-btn {
+            background: #3b6798;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 9px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: #2f5785;
+        }
+
+        /* SUMMARY */
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .summary-card span {
+            color: #77748a;
+            font-size: 14px;
+        }
+
+        .summary-card h2 {
+            margin: 8px 0 0;
+            font-size: 27px;
+            color: #292348;
+        }
+
+        /* SCHOLARSHIP TABLE */
+        .scholarship-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .table-header h2 {
+            margin: 0;
+            color: #292348;
+        }
+
+        .search {
+            width: 280px;
+            padding: 11px 14px;
+            border: 1px solid #d7d7df;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .search:focus {
+            border-color: #3b6798;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px 12px;
+            background: #f6f7fb;
+            color: #5d5a70;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 17px 12px;
+            border-bottom: 1px solid #eeeeF3;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #fafaff;
+        }
+
+        .scholarship-name {
+            font-weight: bold;
+            color: #292348;
+        }
+
+        .scholarship-id {
+            color: #77748a;
+        }
+
+        .amount {
+            font-weight: bold;
+            color: #315d91;
+        }
+
+        /* STATUS */
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .active {
+            background: #e5f8ec;
+            color: #238448;
+        }
+
+        .pending {
+            background: #fff3d6;
+            color: #a66b00;
+        }
+
+        .closed {
+            background: #fbe7e7;
+            color: #c23b3b;
+        }
+
+        /* ACTION BUTTONS */
+        .action-btn {
+            border: none;
+            padding: 7px 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 4px;
+        }
+
+        .view {
+            background: #e8eef8;
+            color: #315d91;
+        }
+
+        .edit {
+            background: #eee9fb;
+            color: #6748a5;
+        }
+
+        .delete {
+            background: #fde8e8;
+            color: #c43838;
+        }
+
+        .action-btn:hover {
+            opacity: .8;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 15, 40, .55);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 520px;
+            max-width: 90%;
+            border-radius: 15px;
+            padding: 28px;
+            box-shadow: 0 10px 40px rgba(0,0,0,.2);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #292348;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #454158;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d5d5df;
+            border-radius: 7px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .cancel-btn {
+            background: #eeeeF3;
+            color: #444;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .save-btn {
+            background: #3b6798;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+                padding: 20px;
+            }
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .app {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .page-header {
+                display: block;
+            }
+
+            .add-btn {
+                margin-top: 15px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .table-header {
+                display: block;
+            }
+
+            .search {
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🎓 ScholarTrack
+        </div>
+
+        <nav class="nav">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+            <a href="students.html">
+                👩‍🎓 Students
+            </a>
+
+            <a href="scholarships.html" class="active">
+                🎓 Scholarships
+            </a>
+
+            <a href="requirements.html">
+                📋 Requirements
+            </a>
+
+            <a href="compliance.html">
+                📈 Academic Compliance
+            </a>
+
+            <a href="reports.html">
+                📑 Reports
+            </a>
+
+        </nav>
+
+        <button class="logout" onclick="logout()">
+            ↪ Logout
+        </button>
+
+    </aside>
+
+
+    <!-- MAIN -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <div class="page-header">
+
+            <div>
+                <h1>Scholarship Management</h1>
+                <p>Manage scholarship programs and monitor available benefits.</p>
+            </div>
+
+            <button class="add-btn" onclick="openScholarshipForm()">
+                + Add Scholarship
+            </button>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+        <div class="summary">
+
+            <div class="summary-card">
+                <span>Total Scholarships</span>
+                <h2 id="totalScholarships">3</h2>
+            </div>
+
+            <div class="summary-card">
+                <span>Active Programs</span>
+                <h2 id="activeScholarships">2</h2>
+            </div>
+
+            <div class="summary-card">
+                <span>Pending Programs</span>
+                <h2 id="pendingScholarships">1</h2>
+            </div>
+
+            <div class="summary-card">
+                <span>Total Scholars</span>
+                <h2>25</h2>
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+        <section class="scholarship-card">
+
+            <div class="table-header">
+
+                <h2>Scholarship Programs</h2>
+
+                <input
+                    type="text"
+                    class="search"
+                    id="searchScholarship"
+                    placeholder="🔍 Search scholarship..."
+                    onkeyup="searchScholarship()"
+                >
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Scholarship Name</th>
+                            <th>Provider</th>
+                            <th>Coverage</th>
+                            <th>Amount</th>
+                            <th>Slots</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="scholarshipTable">
+
+                        <tr>
+
+                            <td class="scholarship-id">
+                                SCH-001
+                            </td>
+
+                            <td>
+                                <div class="scholarship-name">
+                                    Academic Excellence Scholarship
+                                </div>
+                            </td>
+
+                            <td>
+                                School Administration
+                            </td>
+
+                            <td>
+                                Tuition Fee
+                            </td>
+
+                            <td class="amount">
+                                ₱20,000
+                            </td>
+
+                            <td>
+                                10
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn view"
+                                    onclick="viewScholarship('SCH-001')">
+                                    View
+                                </button>
+
+                                <button
+                                    class="action-btn edit"
+                                    onclick="editScholarship('SCH-001')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete"
+                                    onclick="deleteScholarship('SCH-001')">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="scholarship-id">
+                                SCH-002
+                            </td>
+
+                            <td>
+                                <div class="scholarship-name">
+                                    Government Scholarship
+                                </div>
+                            </td>
+
+                            <td>
+                                Government Agency
+                            </td>
+
+                            <td>
+                                Tuition + Allowance
+                            </td>
+
+                            <td class="amount">
+                                ₱30,000
+                            </td>
+
+                            <td>
+                                15
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn view"
+                                    onclick="viewScholarship('SCH-002')">
+                                    View
+                                </button>
+
+                                <button
+                                    class="action-btn edit"
+                                    onclick="editScholarship('SCH-002')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete"
+                                    onclick="deleteScholarship('SCH-002')">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td class="scholarship-id">
+                                SCH-003
+                            </td>
+
+                            <td>
+                                <div class="scholarship-name">
+                                    Private Foundation Grant
+                                </div>
+                            </td>
+
+                            <td>
+                                Private Foundation
+                            </td>
+
+                            <td>
+                                Educational Allowance
+                            </td>
+
+                            <td class="amount">
+                                ₱15,000
+                            </td>
+
+                            <td>
+                                8
+                            </td>
+
+                            <td>
+                                <span class="status pending">
+                                    Pending
+                                </span>
+                            </td>
+
+                            <td>
+
+                                <button
+                                    class="action-btn view"
+                                    onclick="viewScholarship('SCH-003')">
+                                    View
+                                </button>
+
+                                <button
+                                    class="action-btn edit"
+                                    onclick="editScholarship('SCH-003')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete"
+                                    onclick="deleteScholarship('SCH-003')">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ADD SCHOLARSHIP MODAL -->
+
+<div class="modal" id="scholarshipModal">
+
+    <div class="modal-content">
+
+        <h2>Add Scholarship</h2>
+
+        <div class="form-group">
+            <label>Scholarship Name</label>
+            <input
+                type="text"
+                id="scholarshipName"
+                placeholder="Enter scholarship name"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Provider</label>
+            <input
+                type="text"
+                id="provider"
+                placeholder="Enter provider"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Coverage</label>
+            <input
+                type="text"
+                id="coverage"
+                placeholder="e.g. Tuition + Allowance"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Amount</label>
+            <input
+                type="number"
+                id="amount"
+                placeholder="Enter amount"
+            >
+        </div>
+
+        <div class="form-group">
+            <label>Available Slots</label>
+            <input
+                type="number"
+                id="slots"
+                placeholder="Enter number of slots"
+            >
+        </div>
+
+        <div class="form-group">
+
+            <label>Status</label>
+
+            <select id="status">
+                <option value="Active">Active</option>
+                <option value="Pending">Pending</option>
+                <option value="Closed">Closed</option>
+            </select>
+
+        </div>
+
+
+        <div class="modal-buttons">
+
+            <button
+                class="cancel-btn"
+                onclick="closeScholarshipForm()">
+                Cancel
+            </button>
+
+            <button
+                class="save-btn"
+                onclick="saveScholarship()">
+                Save Scholarship
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function openScholarshipForm() {
+
+    document.getElementById("scholarshipModal").style.display = "flex";
+
+}
+
+
+function closeScholarshipForm() {
+
+    document.getElementById("scholarshipModal").style.display = "none";
+
+}
+
+
+function saveScholarship() {
+
+    const name =
+        document.getElementById("scholarshipName").value.trim();
+
+    const provider =
+        document.getElementById("provider").value.trim();
+
+    const coverage =
+        document.getElementById("coverage").value.trim();
+
+    const amount =
+        document.getElementById("amount").value;
+
+    const slots =
+        document.getElementById("slots").value;
+
+    const status =
+        document.getElementById("status").value;
+
+
+    if (!name || !provider || !coverage || !amount || !slots) {
+
+        alert("Please complete all fields.");
+
+        return;
+
+    }
+
+
+    alert("Scholarship added successfully!");
+
+    closeScholarshipForm();
+
+}
+
+
+function searchScholarship() {
+
+    const input =
+        document.getElementById("searchScholarship")
+        .value
+        .toLowerCase();
+
+    const rows =
+        document.querySelectorAll("#scholarshipTable tr");
+
+
+    rows.forEach(row => {
+
+        const text =
+            row.textContent.toLowerCase();
+
+        row.style.display =
+            text.includes(input) ? "" : "none";
+
+    });
+
+}
+
+
+function viewScholarship(id) {
+
+    alert("Viewing scholarship: " + id);
+
+}
+
+
+function editScholarship(id) {
+
+    alert("Editing scholarship: " + id);
+
+}
+
+
+function deleteScholarship(id) {
+
+    if (
+        confirm(
+            "Are you sure you want to delete " + id + "?"
+        )
+    ) {
+
+        alert("Scholarship deleted.");
+
+    }
+
+}
+
+
+function logout() {
+
+    localStorage.removeItem("loggedIn");
+
+    window.location.href = "index.html";
+
+}
+
+
+window.onclick = function(event) {
+
+    const modal =
+        document.getElementById("scholarshipModal");
+
+    if (event.target === modal) {
+
+        closeScholarshipForm();
+
+    }
+
+};
+
+</script>
+
+</body>
+</html>

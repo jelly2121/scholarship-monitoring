@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Scholarship Monitoring System</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="login-page">
+
+    <div class="login-card">
+
+        <div class="brand-icon">
+            🎓
+        </div>
+
+        <h1>
+            Scholarship Monitoring System
+        </h1>
+
+        <p class="subtitle">
+            Student Scholarship & Academic Compliance
+        </p>
+
+
+        <form id="loginForm">
+
+            <label for="email">
+                Email
+            </label>
+
+            <input
+                id="email"
+                type="email"
+                placeholder="admin@gmail.com"
+                autocomplete="email"
+                required
+            >
+
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                id="password"
+                type="password"
+                placeholder="Enter password"
+                autocomplete="current-password"
+                required
+            >
+
+
+            <button
+                id="loginButton"
+                class="btn primary"
+                type="submit">
+
+                Login
+
+            </button>
+
+        </form>
+
+
+        <p
+            id="loginMessage"
+            class="message">
+        </p>
+
+
+        <div class="demo-login">
+
+            Demo Login:<br>
+
+            <b>admin@gmail.com</b>
+            /
+            <b>admin123</b>
+
+        </div>
+
+    </div>
+
+
+    <!-- Supabase JavaScript Library -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
+    </script>
+
+
+    <!-- Your authentication code -->
+    <script src="js/auth.js"></script>
+
+</body>
+
+</html>

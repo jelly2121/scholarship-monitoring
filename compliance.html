@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>ScholarTrack - Academic Compliance</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6fb;
+    color: #24213a;
+}
+
+.app {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 250px;
+    background: #211a3d;
+    color: white;
+    padding: 25px 15px;
+    position: fixed;
+    height: 100vh;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 35px;
+    padding-left: 10px;
+}
+
+.nav a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #ddd9ed;
+    padding: 14px 15px;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+
+.nav a:hover,
+.nav a.active {
+    background: #3c3266;
+    color: white;
+}
+
+.logout {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: white;
+    color: #211a3d;
+    cursor: pointer;
+}
+
+/* MAIN */
+
+.main {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding: 35px;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 30px;
+    color: #272044;
+}
+
+.page-header p {
+    color: #77748a;
+}
+
+/* SUMMARY */
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 18px;
+    margin: 25px 0;
+}
+
+.summary-card {
+    background: white;
+    border-radius: 15px;
+    padding: 22px;
+    box-shadow: 0 3px 15px rgba(0,0,0,.06);
+}
+
+.summary-card span {
+    color: #77748a;
+}
+
+.summary-card h2 {
+    margin: 8px 0 0;
+    font-size: 27px;
+}
+
+/* CARD */
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 3px 15px rgba(0,0,0,.06);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search {
+    width: 280px;
+    padding: 11px;
+    border: 1px solid #d7d7df;
+    border-radius: 8px;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+}
+
+th {
+    text-align: left;
+    padding: 15px;
+    background: #f6f7fb;
+    color: #5d5a70;
+}
+
+td {
+    padding: 17px 12px;
+    border-bottom: 1px solid #eee;
+}
+
+.name {
+    font-weight: bold;
+    color: #292348;
+}
+
+/* PROGRESS */
+
+.bar {
+    width: 150px;
+    height: 8px;
+    background: #e9e9ef;
+    border-radius: 10px;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 7px;
+}
+
+.bar span {
+    display: block;
+    height: 100%;
+    background: #3b6798;
+}
+
+/* STATUS */
+
+.status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.good {
+    background: #e5f8ec;
+    color: #238448;
+}
+
+.warning {
+    background: #fff3d6;
+    color: #a66b00;
+}
+
+.danger {
+    background: #fde8e8;
+    color: #c23b3b;
+}
+
+@media(max-width:900px) {
+
+    .sidebar {
+        width: 200px;
+    }
+
+    .main {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+
+    .summary {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:650px) {
+
+    .app {
+        display: block;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .main {
+        margin: 0;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .summary {
+        grid-template-columns: 1fr;
+    }
+
+    .table-header {
+        display: block;
+    }
+
+    .search {
+        width: 100%;
+        margin-top: 15px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<aside class="sidebar">
+
+<div class="logo">
+🎓 ScholarTrack
+</div>
+
+<nav class="nav">
+
+<a href="dashboard.html">
+📊 Dashboard
+</a>
+
+<a href="students.html">
+👩‍🎓 Students
+</a>
+
+<a href="scholarships.html">
+🎓 Scholarships
+</a>
+
+<a href="requirements.html">
+📋 Requirements
+</a>
+
+<a href="compliance.html" class="active">
+📈 Academic Compliance
+</a>
+
+<a href="reports.html">
+📑 Reports
+</a>
+
+</nav>
+
+<button class="logout" onclick="logout()">
+↪ Logout
+</button>
+
+</aside>
+
+
+<main class="main">
+
+<div class="page-header">
+
+<h1>
+Academic Compliance
+</h1>
+
+<p>
+Monitor grades, attendance, and scholarship compliance.
+</p>
+
+</div>
+
+
+<div class="summary">
+
+<div class="summary-card">
+<span>Total Scholars</span>
+<h2>25</h2>
+</div>
+
+<div class="summary-card">
+<span>Compliant</span>
+<h2>20</h2>
+</div>
+
+<div class="summary-card">
+<span>At Risk</span>
+<h2>3</h2>
+</div>
+
+<div class="summary-card">
+<span>Non-Compliant</span>
+<h2>2</h2>
+</div>
+
+</div>
+
+
+<section class="card">
+
+<div class="table-header">
+
+<h2>
+Academic Monitoring
+</h2>
+
+<input
+class="search"
+id="search"
+onkeyup="filterRows()"
+placeholder="🔍 Search student..."
+>
+
+</div>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Student ID</th>
+<th>Student Name</th>
+<th>Course</th>
+<th>GPA</th>
+<th>Attendance</th>
+<th>Academic Standing</th>
+<th>Compliance</th>
+</tr>
+
+</thead>
+
+
+<tbody id="rows">
+
+<tr>
+
+<td>
+STU-001
+</td>
+
+<td class="name">
+Maria Santos
+</td>
+
+<td>
+BS Education
+</td>
+
+<td>
+1.50
+</td>
+
+<td>
+
+<div class="bar">
+<span style="width:95%"></span>
+</div>
+
+95%
+
+</td>
+
+<td>
+Good Standing
+</td>
+
+<td>
+<span class="status good">
+Compliant
+</span>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+STU-002
+</td>
+
+<td class="name">
+Mark Reyes
+</td>
+
+<td>
+BS Business Administration
+</td>
+
+<td>
+2.00
+</td>
+
+<td>
+
+<div class="bar">
+<span style="width:88%"></span>
+</div>
+
+88%
+
+</td>
+
+<td>
+Good Standing
+</td>
+
+<td>
+<span class="status good">
+Compliant
+</span>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+STU-003
+</td>
+
+<td class="name">
+Ana Cruz
+</td>
+
+<td>
+BSIT
+</td>
+
+<td>
+2.50
+</td>
+
+<td>
+
+<div class="bar">
+<span style="width:76%"></span>
+</div>
+
+76%
+
+</td>
+
+<td>
+At Risk
+</td>
+
+<td>
+<span class="status warning">
+At Risk
+</span>
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+STU-004
+</td>
+
+<td class="name">
+John Garcia
+</td>
+
+<td>
+BS Education
+</td>
+
+<td>
+3.00
+</td>
+
+<td>
+
+<div class="bar">
+<span style="width:68%"></span>
+</div>
+
+68%
+
+</td>
+
+<td>
+Probation
+</td>
+
+<td>
+<span class="status danger">
+Non-Compliant
+</span>
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</main>
+</div>
+
+
+<script>
+
+function filterRows() {
+
+const search =
+document.getElementById("search")
+.value
+.toLowerCase();
+
+document
+.querySelectorAll("#rows tr")
+.forEach(row => {
+
+row.style.display =
+row.textContent
+.toLowerCase()
+.includes(search)
+? ""
+: "none";
+
+});
+
+}
+
+function logout() {
+
+localStorage.removeItem("loggedIn");
+
+window.location.href =
+"index.html";
+
+}
+
+</script>
+
+</body>
+</html>

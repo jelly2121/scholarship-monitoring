@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarTrack - Students</title>
+
+    <link rel="stylesheet" href="CSS/style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #24213a;
+        }
+
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            background: #211a3d;
+            color: white;
+            padding: 25px 15px;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 10px;
+        }
+
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ddd9ed;
+            padding: 14px 15px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .nav a:hover,
+        .nav a.active {
+            background: #3c3266;
+            color: white;
+        }
+
+        .logout {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #211a3d;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .logout:hover {
+            background: #eeeaf8;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 35px;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 30px;
+            color: #272044;
+        }
+
+        .page-header p {
+            margin-top: 7px;
+            color: #77748a;
+        }
+
+        .add-btn {
+            background: #3b6798;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 9px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            background: #2f5785;
+        }
+
+        /* SUMMARY CARDS */
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .summary-card span {
+            color: #77748a;
+            font-size: 14px;
+        }
+
+        .summary-card h2 {
+            margin: 8px 0 0;
+            font-size: 27px;
+            color: #292348;
+        }
+
+        /* TABLE CARD */
+        .student-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .table-header h2 {
+            margin: 0;
+            color: #292348;
+        }
+
+        .search {
+            width: 280px;
+            padding: 11px 14px;
+            border: 1px solid #d7d7df;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .search:focus {
+            border-color: #3b6798;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px 12px;
+            background: #f6f7fb;
+            color: #5d5a70;
+            font-size: 14px;
+        }
+
+        td {
+            padding: 17px 12px;
+            border-bottom: 1px solid #eeeeF3;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #fafaff;
+        }
+
+        .student-name {
+            font-weight: bold;
+            color: #292348;
+        }
+
+        .student-id {
+            color: #77748a;
+        }
+
+        /* STATUS */
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .active {
+            background: #e5f8ec;
+            color: #238448;
+        }
+
+        .inactive {
+            background: #fbe7e7;
+            color: #c23b3b;
+        }
+
+        /* ACTIONS */
+        .action-btn {
+            border: none;
+            padding: 7px 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 4px;
+        }
+
+        .edit {
+            background: #e8eef8;
+            color: #315d91;
+        }
+
+        .delete {
+            background: #fde8e8;
+            color: #c43838;
+        }
+
+        .action-btn:hover {
+            opacity: .8;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+                padding: 20px;
+            }
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .app {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .page-header {
+                display: block;
+            }
+
+            .add-btn {
+                margin-top: 15px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .table-header {
+                display: block;
+            }
+
+            .search {
+                width: 100%;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="logo">
+            🎓 ScholarTrack
+        </div>
+
+        <nav class="nav">
+
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
+
+            <a href="students.html" class="active">
+                👩‍🎓 Students
+            </a>
+
+            <a href="scholarships.html">
+                🎓 Scholarships
+            </a>
+
+            <a href="requirements.html">
+                📋 Requirements
+            </a>
+
+            <a href="compliance.html">
+                📈 Academic Compliance
+            </a>
+
+            <a href="reports.html">
+                📑 Reports
+            </a>
+
+        </nav>
+
+        <button class="logout" onclick="logout()">
+            ↪ Logout
+        </button>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <!-- HEADER -->
+        <div class="page-header">
+
+            <div>
+                <h1>Student Information</h1>
+                <p>Manage and monitor all registered scholars.</p>
+            </div>
+
+            <button class="add-btn" onclick="openStudentForm()">
+                + Add Student
+            </button>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+        <div class="summary">
+
+            <div class="summary-card">
+                <span>Total Students</span>
+                <h2 id="totalStudents">2</h2>
+            </div>
+
+            <div class="summary-card">
+                <span>Active Students</span>
+                <h2 id="activeStudents">2</h2>
+            </div>
+
+            <div class="summary-card">
+                <span>Inactive Students</span>
+                <h2 id="inactiveStudents">0</h2>
+            </div>
+
+            <div class="summary-card">
+                <span>Scholarship Holders</span>
+                <h2>2</h2>
+            </div>
+
+        </div>
+
+
+        <!-- STUDENT TABLE -->
+        <section class="student-card">
+
+            <div class="table-header">
+
+                <h2>Registered Students</h2>
+
+                <input
+                    type="text"
+                    class="search"
+                    id="searchStudent"
+                    placeholder="🔍 Search student..."
+                    onkeyup="searchStudent()"
+                >
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Student Name</th>
+                            <th>Course</th>
+                            <th>Year Level</th>
+                            <th>Email</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="studentTable">
+
+                        <tr>
+                            <td class="student-id">STU-001</td>
+
+                            <td>
+                                <div class="student-name">
+                                    Maria Santos
+                                </div>
+                            </td>
+
+                            <td>
+                                BS Education
+                            </td>
+
+                            <td>
+                                3rd Year
+                            </td>
+
+                            <td>
+                                maria@example.com
+                            </td>
+
+                            <td>
+                                09123456789
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <button
+                                    class="action-btn edit"
+                                    onclick="editStudent('STU-001')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete"
+                                    onclick="deleteStudent('STU-001')">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td class="student-id">STU-002</td>
+
+                            <td>
+                                <div class="student-name">
+                                    Mark Reyes
+                                </div>
+                            </td>
+
+                            <td>
+                                BS Business Administration
+                            </td>
+
+                            <td>
+                                1st Year
+                            </td>
+
+                            <td>
+                                mark@example.com
+                            </td>
+
+                            <td>
+                                09987654321
+                            </td>
+
+                            <td>
+                                <span class="status active">
+                                    Active
+                                </span>
+                            </td>
+
+                            <td>
+                                <button
+                                    class="action-btn edit"
+                                    onclick="editStudent('STU-002')">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="action-btn delete"
+                                    onclick="deleteStudent('STU-002')">
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<script>
+
+function searchStudent() {
+
+    const input =
+        document.getElementById("searchStudent")
+        .value
+        .toLowerCase();
+
+    const rows =
+        document.querySelectorAll("#studentTable tr");
+
+    rows.forEach(row => {
+
+        const text =
+            row.textContent.toLowerCase();
+
+        row.style.display =
+            text.includes(input) ? "" : "none";
+
+    });
+
+}
+
+
+function editStudent(id) {
+
+    alert("Edit student: " + id);
+
+}
+
+
+function deleteStudent(id) {
+
+    if (confirm("Are you sure you want to delete " + id + "?")) {
+
+        alert("Student deleted.");
+
+    }
+
+}
+
+
+function openStudentForm() {
+
+    alert("Open Add Student Form");
+
+}
+
+
+function logout() {
+
+    localStorage.removeItem("loggedIn");
+
+    window.location.href = "index.html";
+
+}
+
+</script>
+
+</body>
+</html>

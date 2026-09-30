@@ -1,0 +1,5 @@
+const sm=document.getElementById("scholarshipModal");
+const renderScholarships=()=>{let d=getData("scholarships");document.getElementById("scholarshipTable").innerHTML=d.map(s=>`<tr><td>${s.scholarship_name}</td><td>${s.provider}</td><td>₱${Number(s.amount).toLocaleString()}</td><td>${s.deadline}</td><td>${statusBadge(s.status)}</td></tr>`).join("")};
+document.getElementById("addScholarshipBtn").onclick=()=>sm.classList.add("show");
+document.getElementById("closeScholarship").onclick=()=>sm.classList.remove("show");
+document.getElementById("scholarshipForm").onsubmit=e=>{e.preventDefault();let d=getData("scholarships");d.push({scholarship_name:scholarshipName.value,provider:provider.value,amount:amount.value,deadline:deadline.value,status:scholarshipStatus.value});saveData("scholarships",d);e.target.reset();sm.classList.remove("show");renderScholarships()};renderScholarships();

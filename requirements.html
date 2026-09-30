@@ -2,10 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ScholarTrack - Scholarships</title>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>ScholarTrack - Requirements</title>
+
+    <link rel="stylesheet" href="style.css">
 
     <style>
 
@@ -24,6 +29,7 @@
             display: flex;
             min-height: 100vh;
         }
+
 
         /* =========================
            SIDEBAR
@@ -78,8 +84,9 @@
         }
 
         .logout:hover {
-            background: #eeeaf8;
+            background: #eeeeee;
         }
+
 
         /* =========================
            MAIN
@@ -123,6 +130,7 @@
             background: #2f5785;
         }
 
+
         /* =========================
            SUMMARY
         ========================= */
@@ -138,7 +146,7 @@
             background: white;
             border-radius: 14px;
             padding: 20px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
         }
 
         .summary-card span {
@@ -152,15 +160,16 @@
             color: #292348;
         }
 
+
         /* =========================
-           SCHOLARSHIP TABLE
+           REQUIREMENT CARD
         ========================= */
 
-        .scholarship-card {
+        .requirement-card {
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 3px 15px rgba(0,0,0,0.06);
         }
 
         .table-header {
@@ -175,16 +184,25 @@
             color: #292348;
         }
 
+        .table-controls {
+            display: flex;
+            gap: 10px;
+        }
+
         .search {
-            width: 280px;
+            width: 250px;
             padding: 11px 14px;
             border: 1px solid #d7d7df;
             border-radius: 8px;
             outline: none;
         }
 
-        .search:focus {
-            border-color: #3b6798;
+        .filter {
+            padding: 11px 14px;
+            border: 1px solid #d7d7df;
+            border-radius: 8px;
+            outline: none;
+            background: white;
         }
 
         .table-wrapper {
@@ -194,7 +212,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 1000px;
+            min-width: 950px;
         }
 
         th {
@@ -215,19 +233,15 @@
             background: #fafaff;
         }
 
-        .scholarship-name {
+        .student-name {
             font-weight: bold;
             color: #292348;
         }
 
-        .scholarship-id {
+        .student-id {
             color: #77748a;
         }
 
-        .amount {
-            font-weight: bold;
-            color: #315d91;
-        }
 
         /* =========================
            STATUS
@@ -241,7 +255,7 @@
             font-weight: bold;
         }
 
-        .active {
+        .submitted {
             background: #e5f8ec;
             color: #238448;
         }
@@ -251,13 +265,14 @@
             color: #a66b00;
         }
 
-        .closed {
+        .missing {
             background: #fbe7e7;
             color: #c23b3b;
         }
 
+
         /* =========================
-           ACTION BUTTONS
+           ACTIONS
         ========================= */
 
         .action-btn {
@@ -269,13 +284,13 @@
         }
 
         .view {
-            background: #e8eef8;
-            color: #315d91;
+            background: #eee9fb;
+            color: #6748a5;
         }
 
         .edit {
-            background: #eee9fb;
-            color: #6748a5;
+            background: #e8eef8;
+            color: #315d91;
         }
 
         .delete {
@@ -287,34 +302,58 @@
             opacity: 0.8;
         }
 
+
         /* =========================
            MODAL
         ========================= */
 
         .modal {
-            display: none;
             position: fixed;
             inset: 0;
-            background: rgba(20, 15, 40, 0.55);
-            justify-content: center;
+            background: rgba(0,0,0,0.45);
+
+            display: flex;
             align-items: center;
-            z-index: 1000;
+            justify-content: center;
+
+            z-index: 999;
         }
 
-        .modal-content {
+        .modal.hidden {
+            display: none;
+        }
+
+        .modal-box {
+            width: 500px;
+            max-width: 92%;
+
             background: white;
-            width: 520px;
-            max-width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
             border-radius: 15px;
+
             padding: 28px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
         }
 
-        .modal-content h2 {
-            margin-top: 0;
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
             color: #292348;
+        }
+
+        .close {
+            border: none;
+            background: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #777;
         }
 
         .form-group {
@@ -324,94 +363,86 @@
         .form-group label {
             display: block;
             margin-bottom: 6px;
+            font-size: 14px;
             font-weight: bold;
-            color: #454158;
+            color: #444;
         }
 
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 11px;
-            border: 1px solid #d5d5df;
-            border-radius: 7px;
-            font-size: 14px;
+            padding: 11px 12px;
+
+            border: 1px solid #d7d7df;
+            border-radius: 8px;
+
             outline: none;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            min-height: 80px;
+            resize: vertical;
         }
 
         .form-group input:focus,
-        .form-group select:focus {
+        .form-group select:focus,
+        .form-group textarea:focus {
             border-color: #3b6798;
         }
 
-        .modal-buttons {
+        .modal-actions {
             display: flex;
             justify-content: flex-end;
             gap: 10px;
             margin-top: 20px;
         }
 
-        .cancel-btn {
-            background: #eeeeF3;
-            color: #444;
-            border: none;
-            padding: 11px 18px;
-            border-radius: 7px;
-            cursor: pointer;
-        }
-
-        .cancel-btn:hover {
-            background: #dddde5;
-        }
-
-        .save-btn {
+        .submit-btn {
             background: #3b6798;
             color: white;
+
             border: none;
-            padding: 11px 18px;
-            border-radius: 7px;
+            border-radius: 8px;
+
+            padding: 11px 20px;
             cursor: pointer;
         }
 
-        .save-btn:hover {
-            background: #2f5785;
+        .cancel-btn {
+            background: #eee;
+
+            color: #333;
+
+            border: none;
+            border-radius: 8px;
+
+            padding: 11px 20px;
+            cursor: pointer;
         }
 
-        /* =========================
-           EMPTY TABLE
-        ========================= */
-
-        .empty-message {
-            text-align: center;
-            padding: 30px;
-            color: #77748a;
-        }
 
         /* =========================
            RESPONSIVE
         ========================= */
 
-        @media (max-width: 1100px) {
+        @media (max-width: 1000px) {
 
             .summary {
                 grid-template-columns: repeat(2, 1fr);
             }
 
-        }
-
-        @media (max-width: 900px) {
-
-            .sidebar {
-                width: 200px;
+            .table-header {
+                display: block;
             }
 
-            .main {
-                margin-left: 200px;
-                width: calc(100% - 200px);
-                padding: 20px;
+            .table-controls {
+                margin-top: 15px;
             }
 
         }
+
 
         @media (max-width: 650px) {
 
@@ -428,6 +459,7 @@
             .main {
                 margin-left: 0;
                 width: 100%;
+                padding: 20px;
             }
 
             .page-header {
@@ -442,13 +474,17 @@
                 grid-template-columns: 1fr;
             }
 
-            .table-header {
+            .table-controls {
                 display: block;
             }
 
             .search {
                 width: 100%;
-                margin-top: 15px;
+                margin-bottom: 10px;
+            }
+
+            .filter {
+                width: 100%;
             }
 
         }
@@ -457,9 +493,11 @@
 
 </head>
 
+
 <body>
 
 <div class="app">
+
 
     <!-- =========================
          SIDEBAR
@@ -481,11 +519,11 @@
                 👩‍🎓 Students
             </a>
 
-            <a href="scholarships.html" class="active">
+            <a href="scholarships.html">
                 🎓 Scholarships
             </a>
 
-            <a href="requirements.html">
+            <a href="requirements.html" class="active">
                 📋 Requirements
             </a>
 
@@ -507,10 +545,11 @@
 
 
     <!-- =========================
-         MAIN CONTENT
+         MAIN
     ========================= -->
 
     <main class="main">
+
 
         <!-- HEADER -->
 
@@ -519,20 +558,21 @@
             <div>
 
                 <h1>
-                    Scholarship Management
+                    Requirements Monitoring
                 </h1>
 
                 <p>
-                    Manage scholarship programs and monitor available benefits.
+                    Track and manage scholarship document submissions.
                 </p>
 
             </div>
 
+
             <button
                 class="add-btn"
-                onclick="openScholarshipForm()">
+                onclick="openRequirementForm()">
 
-                + Add Scholarship
+                + Add Requirement
 
             </button>
 
@@ -540,7 +580,7 @@
 
 
         <!-- =========================
-             SUMMARY CARDS
+             SUMMARY
         ========================= -->
 
         <div class="summary">
@@ -548,10 +588,10 @@
             <div class="summary-card">
 
                 <span>
-                    Total Scholarships
+                    Total Requirements
                 </span>
 
-                <h2 id="totalScholarships">
+                <h2 id="totalRequirements">
                     0
                 </h2>
 
@@ -561,10 +601,10 @@
             <div class="summary-card">
 
                 <span>
-                    Active Programs
+                    Submitted
                 </span>
 
-                <h2 id="activeScholarships">
+                <h2 id="submittedRequirements">
                     0
                 </h2>
 
@@ -574,10 +614,10 @@
             <div class="summary-card">
 
                 <span>
-                    Pending Programs
+                    Pending
                 </span>
 
-                <h2 id="pendingScholarships">
+                <h2 id="pendingRequirements">
                     0
                 </h2>
 
@@ -587,10 +627,10 @@
             <div class="summary-card">
 
                 <span>
-                    Total Scholars
+                    Missing
                 </span>
 
-                <h2 id="totalScholars">
+                <h2 id="missingRequirements">
                     0
                 </h2>
 
@@ -600,24 +640,52 @@
 
 
         <!-- =========================
-             SCHOLARSHIP TABLE
+             REQUIREMENT TABLE
         ========================= -->
 
-        <section class="scholarship-card">
+        <section class="requirement-card">
 
             <div class="table-header">
 
                 <h2>
-                    Scholarship Programs
+                    Requirement Status
                 </h2>
 
-                <input
-                    type="text"
-                    class="search"
-                    id="searchScholarship"
-                    placeholder="🔍 Search scholarship..."
-                    onkeyup="searchScholarship()"
-                >
+
+                <div class="table-controls">
+
+                    <input
+                        type="text"
+                        class="search"
+                        id="searchRequirement"
+                        placeholder="🔍 Search requirement..."
+                        onkeyup="searchRequirement()">
+
+
+                    <select
+                        class="filter"
+                        id="statusFilter"
+                        onchange="filterRequirements()">
+
+                        <option value="All">
+                            All Status
+                        </option>
+
+                        <option value="Submitted">
+                            Submitted
+                        </option>
+
+                        <option value="Pending">
+                            Pending
+                        </option>
+
+                        <option value="Missing">
+                            Missing
+                        </option>
+
+                    </select>
+
+                </div>
 
             </div>
 
@@ -632,52 +700,26 @@
 
                             <th>ID</th>
 
-                            <th>
-                                Scholarship Name
-                            </th>
+                            <th>Student</th>
 
-                            <th>
-                                Provider
-                            </th>
+                            <th>Requirement</th>
 
-                            <th>
-                                Coverage
-                            </th>
+                            <th>Submission Date</th>
 
-                            <th>
-                                Amount
-                            </th>
+                            <th>Status</th>
 
-                            <th>
-                                Slots
-                            </th>
+                            <th>Remarks</th>
 
-                            <th>
-                                Status
-                            </th>
-
-                            <th>
-                                Action
-                            </th>
+                            <th>Action</th>
 
                         </tr>
 
                     </thead>
 
 
-                    <tbody id="scholarshipTable">
+                    <tbody id="requirementTable">
 
-                        <tr>
-
-                            <td
-                                colspan="8"
-                                class="empty-message">
-
-                                Loading scholarships...
-
-                            </td>
-
-                        </tr>
+                        <!-- Data loaded by JavaScript -->
 
                     </tbody>
 
@@ -692,172 +734,1060 @@
 </div>
 
 
+
 <!-- =========================
-     ADD / EDIT SCHOLARSHIP MODAL
+     ADD / EDIT REQUIREMENT MODAL
 ========================= -->
 
 <div
-    class="modal"
-    id="scholarshipModal">
+    id="requirementModal"
+    class="modal hidden">
 
-    <div class="modal-content">
-
-        <h2>
-            Add Scholarship
-        </h2>
+    <div class="modal-box">
 
 
-        <!-- SCHOLARSHIP NAME -->
+        <div class="modal-header">
 
-        <div class="form-group">
-
-            <label for="scholarshipName">
-                Scholarship Name
-            </label>
-
-            <input
-                type="text"
-                id="scholarshipName"
-                placeholder="Enter scholarship name"
-            >
-
-        </div>
-
-
-        <!-- PROVIDER -->
-
-        <div class="form-group">
-
-            <label for="provider">
-                Provider
-            </label>
-
-            <input
-                type="text"
-                id="provider"
-                placeholder="Enter provider"
-            >
-
-        </div>
-
-
-        <!-- COVERAGE -->
-
-        <div class="form-group">
-
-            <label for="coverage">
-                Coverage
-            </label>
-
-            <input
-                type="text"
-                id="coverage"
-                placeholder="e.g. Tuition + Allowance"
-            >
-
-        </div>
-
-
-        <!-- AMOUNT -->
-
-        <div class="form-group">
-
-            <label for="amount">
-                Amount
-            </label>
-
-            <input
-                type="number"
-                id="amount"
-                min="0"
-                placeholder="Enter amount"
-            >
-
-        </div>
-
-
-        <!-- SLOTS -->
-
-        <div class="form-group">
-
-            <label for="slots">
-                Available Slots
-            </label>
-
-            <input
-                type="number"
-                id="slots"
-                min="0"
-                placeholder="Enter number of slots"
-            >
-
-        </div>
-
-
-        <!-- STATUS -->
-
-        <div class="form-group">
-
-            <label for="status">
-                Status
-            </label>
-
-            <select id="status">
-
-                <option value="Active">
-                    Active
-                </option>
-
-                <option value="Pending">
-                    Pending
-                </option>
-
-                <option value="Closed">
-                    Closed
-                </option>
-
-            </select>
-
-        </div>
-
-
-        <!-- BUTTONS -->
-
-        <div class="modal-buttons">
+            <h2 id="modalTitle">
+                Add Requirement
+            </h2>
 
             <button
-                type="button"
-                class="cancel-btn"
-                onclick="closeScholarshipForm()">
+                class="close"
+                onclick="closeRequirementForm()">
 
-                Cancel
-
-            </button>
-
-
-            <button
-                type="button"
-                class="save-btn"
-                onclick="saveScholarship()">
-
-                Save Scholarship
+                ×
 
             </button>
 
         </div>
+
+
+        <form id="requirementForm">
+
+
+            <!-- REQUIREMENT ID -->
+
+            <div class="form-group">
+
+                <label>
+                    Requirement ID *
+                </label>
+
+                <input
+                    type="text"
+                    id="requirementId"
+                    placeholder="Example: REQ-001"
+                    required>
+
+            </div>
+
+
+            <!-- STUDENT -->
+
+            <div class="form-group">
+
+                <label>
+                    Student Name *
+                </label>
+
+                <input
+                    type="text"
+                    id="requirementStudent"
+                    placeholder="Enter student name"
+                    required>
+
+            </div>
+
+
+            <!-- REQUIREMENT -->
+
+            <div class="form-group">
+
+                <label>
+                    Requirement *
+                </label>
+
+                <input
+                    type="text"
+                    id="requirementName"
+                    placeholder="Example: Certificate of Enrollment"
+                    required>
+
+            </div>
+
+
+            <!-- DATE -->
+
+            <div class="form-group">
+
+                <label>
+                    Submission Date
+                </label>
+
+                <input
+                    type="date"
+                    id="submissionDate">
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="form-group">
+
+                <label>
+                    Status *
+                </label>
+
+                <select
+                    id="requirementStatus"
+                    required>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="Submitted">
+                        Submitted
+                    </option>
+
+                    <option value="Missing">
+                        Missing
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- REMARKS -->
+
+            <div class="form-group">
+
+                <label>
+                    Remarks
+                </label>
+
+                <textarea
+                    id="requirementRemarks"
+                    placeholder="Enter remarks"></textarea>
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeRequirementForm()">
+
+                    Cancel
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn">
+
+                    Save Requirement
+
+                </button>
+
+            </div>
+
+        </form>
 
     </div>
 
 </div>
 
 
-<!-- =========================
-     JAVASCRIPT
-========================= -->
 
-<script src="dashboard.js"></script>
-<script src="scholarship.js"></script>
+<script>
+
+/* ==========================================
+   GLOBAL EDIT ID
+========================================== */
+
+let editingRequirementId = null;
+
+
+/* ==========================================
+   GET REQUIREMENTS
+========================================== */
+
+function getRequirements() {
+
+    try {
+
+        const data =
+            localStorage.getItem("requirements");
+
+        return data
+            ? JSON.parse(data)
+            : [];
+
+    } catch (error) {
+
+        console.error(error);
+
+        return [];
+
+    }
+
+}
+
+
+/* ==========================================
+   SAVE REQUIREMENTS
+========================================== */
+
+function saveRequirements(requirements) {
+
+    localStorage.setItem(
+        "requirements",
+        JSON.stringify(requirements)
+    );
+
+}
+
+
+/* ==========================================
+   RENDER REQUIREMENTS
+========================================== */
+
+function renderRequirements() {
+
+    const requirements =
+        getRequirements();
+
+    const table =
+        document.getElementById(
+            "requirementTable"
+        );
+
+    table.innerHTML = "";
+
+
+    /* =========================
+       NO RECORDS
+    ========================= */
+
+    if (requirements.length === 0) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="7"
+                    style="
+                        text-align:center;
+                        padding:40px;
+                        color:#999;
+                    "
+                >
+
+                    No requirements registered yet.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        updateSummary(requirements);
+
+        return;
+
+    }
+
+
+    /* =========================
+       DISPLAY REQUIREMENTS
+    ========================= */
+
+    requirements.forEach(requirement => {
+
+        const row =
+            document.createElement("tr");
+
+
+        const status =
+            requirement.status || "Pending";
+
+
+        let statusClass = "pending";
+
+        if (status === "Submitted") {
+
+            statusClass = "submitted";
+
+        }
+
+        if (status === "Missing") {
+
+            statusClass = "missing";
+
+        }
+
+
+        row.innerHTML = `
+
+            <td class="student-id">
+
+                ${escapeHTML(
+                    requirement.requirement_id || "-"
+                )}
+
+            </td>
+
+
+            <td>
+
+                <div class="student-name">
+
+                    ${escapeHTML(
+                        requirement.student || "-"
+                    )}
+
+                </div>
+
+            </td>
+
+
+            <td>
+
+                ${escapeHTML(
+                    requirement.name || "-"
+                )}
+
+            </td>
+
+
+            <td>
+
+                ${escapeHTML(
+                    requirement.date || "-"
+                )}
+
+            </td>
+
+
+            <td>
+
+                <span class="status ${statusClass}">
+
+                    ${escapeHTML(status)}
+
+                </span>
+
+            </td>
+
+
+            <td>
+
+                ${escapeHTML(
+                    requirement.remarks || "-"
+                )}
+
+            </td>
+
+
+            <td>
+
+                <button
+                    class="action-btn view"
+                    onclick="viewRequirement('${escapeHTML(
+                        requirement.requirement_id
+                    )}')">
+
+                    View
+
+                </button>
+
+
+                <button
+                    class="action-btn edit"
+                    onclick="editRequirement('${escapeHTML(
+                        requirement.requirement_id
+                    )}')">
+
+                    Edit
+
+                </button>
+
+
+                <button
+                    class="action-btn delete"
+                    onclick="deleteRequirement('${escapeHTML(
+                        requirement.requirement_id
+                    )}')">
+
+                    Delete
+
+                </button>
+
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+
+    updateSummary(requirements);
+
+}
+
+
+/* ==========================================
+   UPDATE SUMMARY
+========================================== */
+
+function updateSummary(requirements) {
+
+    const total =
+        requirements.length;
+
+
+    const submitted =
+        requirements.filter(
+            requirement =>
+                requirement.status === "Submitted"
+        ).length;
+
+
+    const pending =
+        requirements.filter(
+            requirement =>
+                requirement.status === "Pending"
+        ).length;
+
+
+    const missing =
+        requirements.filter(
+            requirement =>
+                requirement.status === "Missing"
+        ).length;
+
+
+    document.getElementById(
+        "totalRequirements"
+    ).textContent = total;
+
+
+    document.getElementById(
+        "submittedRequirements"
+    ).textContent = submitted;
+
+
+    document.getElementById(
+        "pendingRequirements"
+    ).textContent = pending;
+
+
+    document.getElementById(
+        "missingRequirements"
+    ).textContent = missing;
+
+}
+
+
+/* ==========================================
+   OPEN ADD FORM
+========================================== */
+
+function openRequirementForm() {
+
+    editingRequirementId = null;
+
+
+    document
+        .getElementById("requirementForm")
+        .reset();
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Add Requirement";
+
+
+    document.getElementById(
+        "requirementModal"
+    ).classList.remove("hidden");
+
+}
+
+
+/* ==========================================
+   CLOSE FORM
+========================================== */
+
+function closeRequirementForm() {
+
+    document.getElementById(
+        "requirementModal"
+    ).classList.add("hidden");
+
+    editingRequirementId = null;
+
+}
+
+
+/* ==========================================
+   SUBMIT FORM
+========================================== */
+
+document
+    .getElementById("requirementForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const requirements =
+                getRequirements();
+
+
+            const requirementId =
+                document
+                    .getElementById("requirementId")
+                    .value
+                    .trim();
+
+
+            const student =
+                document
+                    .getElementById("requirementStudent")
+                    .value
+                    .trim();
+
+
+            const name =
+                document
+                    .getElementById("requirementName")
+                    .value
+                    .trim();
+
+
+            const date =
+                document
+                    .getElementById("submissionDate")
+                    .value;
+
+
+            const status =
+                document
+                    .getElementById("requirementStatus")
+                    .value;
+
+
+            const remarks =
+                document
+                    .getElementById("requirementRemarks")
+                    .value
+                    .trim();
+
+
+            /* =========================
+               EDIT
+            ========================= */
+
+            if (editingRequirementId !== null) {
+
+                const index =
+                    requirements.findIndex(
+                        requirement =>
+                            requirement.requirement_id ===
+                            editingRequirementId
+                    );
+
+
+                if (index !== -1) {
+
+                    requirements[index] = {
+
+                        requirement_id:
+                            requirementId,
+
+                        student:
+                            student,
+
+                        name:
+                            name,
+
+                        date:
+                            date,
+
+                        status:
+                            status,
+
+                        remarks:
+                            remarks
+
+                    };
+
+                }
+
+
+                saveRequirements(
+                    requirements
+                );
+
+                renderRequirements();
+
+                closeRequirementForm();
+
+                alert(
+                    "Requirement updated successfully!"
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               DUPLICATE CHECK
+            ========================= */
+
+            const exists =
+                requirements.some(
+                    requirement =>
+                        String(
+                            requirement.requirement_id
+                        ).toLowerCase() ===
+                        requirementId.toLowerCase()
+                );
+
+
+            if (exists) {
+
+                alert(
+                    "Requirement ID already exists."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               CREATE
+            ========================= */
+
+            const newRequirement = {
+
+                requirement_id:
+                    requirementId,
+
+                student:
+                    student,
+
+                name:
+                    name,
+
+                date:
+                    date,
+
+                status:
+                    status,
+
+                remarks:
+                    remarks
+
+            };
+
+
+            requirements.push(
+                newRequirement
+            );
+
+
+            /* =========================
+               SAVE
+            ========================= */
+
+            saveRequirements(
+                requirements
+            );
+
+
+            /* =========================
+               REFRESH
+            ========================= */
+
+            renderRequirements();
+
+
+            /* =========================
+               CLOSE
+            ========================= */
+
+            closeRequirementForm();
+
+
+            alert(
+                "Requirement added successfully!"
+            );
+
+        }
+    );
+
+
+/* ==========================================
+   EDIT REQUIREMENT
+========================================== */
+
+function editRequirement(id) {
+
+    const requirements =
+        getRequirements();
+
+
+    const requirement =
+        requirements.find(
+            item =>
+                item.requirement_id === id
+        );
+
+
+    if (!requirement) {
+
+        alert(
+            "Requirement not found."
+        );
+
+        return;
+
+    }
+
+
+    editingRequirementId =
+        id;
+
+
+    document.getElementById(
+        "modalTitle"
+    ).textContent =
+        "Edit Requirement";
+
+
+    document.getElementById(
+        "requirementId"
+    ).value =
+        requirement.requirement_id;
+
+
+    document.getElementById(
+        "requirementStudent"
+    ).value =
+        requirement.student || "";
+
+
+    document.getElementById(
+        "requirementName"
+    ).value =
+        requirement.name || "";
+
+
+    document.getElementById(
+        "submissionDate"
+    ).value =
+        requirement.date || "";
+
+
+    document.getElementById(
+        "requirementStatus"
+    ).value =
+        requirement.status || "Pending";
+
+
+    document.getElementById(
+        "requirementRemarks"
+    ).value =
+        requirement.remarks || "";
+
+
+    document.getElementById(
+        "requirementModal"
+    ).classList.remove("hidden");
+
+}
+
+
+/* ==========================================
+   VIEW REQUIREMENT
+========================================== */
+
+function viewRequirement(id) {
+
+    const requirements =
+        getRequirements();
+
+
+    const requirement =
+        requirements.find(
+            item =>
+                item.requirement_id === id
+        );
+
+
+    if (!requirement) {
+
+        alert(
+            "Requirement not found."
+        );
+
+        return;
+
+    }
+
+
+    alert(
+
+        "Requirement Details\n\n" +
+
+        "ID: " +
+        requirement.requirement_id +
+
+        "\nStudent: " +
+        requirement.student +
+
+        "\nRequirement: " +
+        requirement.name +
+
+        "\nSubmission Date: " +
+        (requirement.date || "Not submitted") +
+
+        "\nStatus: " +
+        requirement.status +
+
+        "\nRemarks: " +
+        (requirement.remarks || "None")
+
+    );
+
+}
+
+
+/* ==========================================
+   DELETE REQUIREMENT
+========================================== */
+
+function deleteRequirement(id) {
+
+    const requirements =
+        getRequirements();
+
+
+    const requirement =
+        requirements.find(
+            item =>
+                item.requirement_id === id
+        );
+
+
+    if (!requirement) {
+
+        alert(
+            "Requirement not found."
+        );
+
+        return;
+
+    }
+
+
+    const confirmDelete =
+        confirm(
+            "Are you sure you want to delete requirement " +
+            id +
+            "?"
+        );
+
+
+    if (!confirmDelete) {
+
+        return;
+
+    }
+
+
+    const updatedRequirements =
+        requirements.filter(
+            item =>
+                item.requirement_id !== id
+        );
+
+
+    saveRequirements(
+        updatedRequirements
+    );
+
+
+    renderRequirements();
+
+
+    alert(
+        "Requirement deleted successfully."
+    );
+
+}
+
+
+/* ==========================================
+   SEARCH
+========================================== */
+
+function searchRequirement() {
+
+    filterRequirements();
+
+}
+
+
+/* ==========================================
+   FILTER + SEARCH
+========================================== */
+
+function filterRequirements() {
+
+    const search =
+        document
+            .getElementById("searchRequirement")
+            .value
+            .toLowerCase();
+
+
+    const selectedStatus =
+        document
+            .getElementById("statusFilter")
+            .value;
+
+
+    const rows =
+        document.querySelectorAll(
+            "#requirementTable tr"
+        );
+
+
+    rows.forEach(row => {
+
+        const text =
+            row.textContent
+                .toLowerCase();
+
+
+        const statusElement =
+            row.querySelector(".status");
+
+
+        const rowStatus =
+            statusElement
+                ? statusElement.textContent.trim()
+                : "";
+
+
+        const matchesSearch =
+            text.includes(search);
+
+
+        const matchesStatus =
+            selectedStatus === "All" ||
+            rowStatus === selectedStatus;
+
+
+        row.style.display =
+            matchesSearch &&
+            matchesStatus
+                ? ""
+                : "none";
+
+    });
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
+
+function logout() {
+
+    localStorage.removeItem(
+        "loggedIn"
+    );
+
+
+    window.location.href =
+        "index.html";
+
+}
+
+
+/* ==========================================
+   LOAD REQUIREMENTS
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        renderRequirements();
+
+    }
+);
+
+</script>
+
 
 </body>
-
 </html>

@@ -4,183 +4,530 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ScholarTrack | Dashboard</title>
+    <title>Dashboard | Scholarship Monitoring System</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f6f7fb;
+            color: #202535;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            background: #211a3d;
+            color: white;
+            padding: 25px 15px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-icon {
+            font-size: 42px;
+        }
+
+        .logo h2 {
+            margin: 8px 0 4px;
+            font-size: 19px;
+        }
+
+        .logo p {
+            margin: 0;
+            font-size: 12px;
+            color: #c9c4dc;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .menu li {
+            margin-bottom: 7px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ddd8ee;
+            text-decoration: none;
+            padding: 13px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: .2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #6c4bb6;
+            color: white;
+        }
+
+        .menu-icon {
+            width: 22px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .logout {
+            margin-top: 25px;
+            border-top: 1px solid rgba(255,255,255,.12);
+            padding-top: 20px;
+        }
+
+        /* MAIN */
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .topbar h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .topbar p {
+            margin: 7px 0 0;
+            color: #777;
+            font-size: 14px;
+        }
+
+        .user-info {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,.05);
+            font-size: 14px;
+        }
+
+        /* CARDS */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.06);
+        }
+
+        .stat-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
+            background: #eee7ff;
+        }
+
+        .stat-card h3 {
+            margin: 0 0 8px;
+            font-size: 13px;
+            color: #777;
+            font-weight: normal;
+        }
+
+        .stat-card .number {
+            font-size: 27px;
+            font-weight: bold;
+        }
+
+        /* CONTENT GRID */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .card-header a {
+            color: #6c4bb6;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        /* TABLE */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 13px 10px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        th {
+            color: #777;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status.active,
+        .status.completed,
+        .status.compliant {
+            background: #e6f7ed;
+            color: #16834c;
+        }
+
+        .status.pending {
+            background: #fff4d6;
+            color: #9b7100;
+        }
+
+        .status.warning {
+            background: #fff0dc;
+            color: #b96800;
+        }
+
+        .status.danger {
+            background: #ffe5e5;
+            color: #c0392b;
+        }
+
+        /* SCHOLARSHIP LIST */
+        .scholarship-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .scholarship-item:last-child {
+            border-bottom: none;
+        }
+
+        .scholarship-name {
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .scholarship-info {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 12px;
+        }
+
+        .progress {
+            height: 7px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 9px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #6c4bb6;
+            border-radius: 10px;
+        }
+
+        /* QUICK ACTIONS */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .action-btn {
+            border: none;
+            background: white;
+            border-radius: 13px;
+            padding: 20px 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,.05);
+            text-align: center;
+            transition: .2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(0,0,0,.09);
+        }
+
+        .action-btn .icon {
+            font-size: 27px;
+            margin-bottom: 8px;
+        }
+
+        .action-btn span {
+            display: block;
+            font-size: 13px;
+            color: #333;
+        }
+
+        /* MOBILE */
+        @media (max-width: 1100px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+            .sidebar {
+                width: 70px;
+                padding: 15px 8px;
+            }
+
+            .logo h2,
+            .logo p,
+            .menu a span {
+                display: none;
+            }
+
+            .logo-icon {
+                font-size: 30px;
+            }
+
+            .menu a {
+                justify-content: center;
+                padding: 13px 5px;
+            }
+
+            .main {
+                margin-left: 70px;
+                width: calc(100% - 70px);
+                padding: 20px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .topbar h1 {
+                font-size: 22px;
+            }
+
+            .user-info {
+                display: none;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 
-<body class="dashboard-page">
+<body>
 
-<div class="app-layout">
+<div class="layout">
 
     <!-- SIDEBAR -->
     <aside class="sidebar">
 
-        <div class="sidebar-brand">
-            <div class="brand-logo">🎓</div>
-
-            <div>
-                <h2>ScholarTrack</h2>
-                <span>Scholarship Management</span>
-            </div>
+        <div class="logo">
+            <div class="logo-icon">🎓</div>
+            <h2>ScholarTrack</h2>
+            <p>Scholarship Monitoring System</p>
         </div>
 
-        <nav class="sidebar-nav">
+        <ul class="menu">
 
-            <a href="dashboard.html" class="nav-item active">
-                <span class="nav-icon">📊</span>
-                <span>Dashboard</span>
-            </a>
+            <li>
+                <a href="dashboard.html" class="active">
+                    <span class="menu-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
-            <a href="students.html" class="nav-item">
-                <span class="nav-icon">👨‍🎓</span>
-                <span>Students</span>
-            </a>
+            <li>
+                <a href="students.html">
+                    <span class="menu-icon">👨‍🎓</span>
+                    <span>Students</span>
+                </a>
+            </li>
 
-            <a href="scholarships.html" class="nav-item">
-                <span class="nav-icon">🎓</span>
-                <span>Scholarships</span>
-            </a>
+            <li>
+                <a href="scholarships.html">
+                    <span class="menu-icon">🎓</span>
+                    <span>Scholarships</span>
+                </a>
+            </li>
 
-            <a href="requirements.html" class="nav-item">
-                <span class="nav-icon">📋</span>
-                <span>Requirements</span>
-            </a>
+            <li>
+                <a href="requirements.html">
+                    <span class="menu-icon">📋</span>
+                    <span>Requirements</span>
+                </a>
+            </li>
 
-            <a href="compliance.html" class="nav-item">
-                <span class="nav-icon">📚</span>
-                <span>Academic Compliance</span>
-            </a>
+            <li>
+                <a href="compliance.html">
+                    <span class="menu-icon">📚</span>
+                    <span>Academic Compliance</span>
+                </a>
+            </li>
 
-            <a href="reports.html" class="nav-item">
-                <span class="nav-icon">📈</span>
-                <span>Reports</span>
-            </a>
+            <li>
+                <a href="reports.html">
+                    <span class="menu-icon">📈</span>
+                    <span>Reports</span>
+                </a>
+            </li>
 
-        </nav>
+            <li class="logout">
+                <a href="#" id="logoutBtn">
+                    <span class="menu-icon">🚪</span>
+                    <span>Logout</span>
+                </a>
+            </li>
 
-        <div class="sidebar-bottom">
-
-            <div class="admin-profile">
-                <div class="admin-avatar">A</div>
-
-                <div class="admin-info">
-                    <strong>Administrator</strong>
-                    <small>Scholarship Admin</small>
-                </div>
-            </div>
-
-            <button id="logoutBtn" class="logout-btn">
-                <span>↪</span>
-                Logout
-            </button>
-
-        </div>
+        </ul>
 
     </aside>
 
 
     <!-- MAIN CONTENT -->
-    <main class="main-content">
+    <main class="main">
 
-        <!-- TOP HEADER -->
-        <header class="top-header">
+        <!-- TOPBAR -->
+        <div class="topbar">
 
             <div>
                 <h1>Dashboard</h1>
-                <p>Welcome back! Here's your scholarship overview.</p>
+                <p>Welcome to the Scholarship Monitoring System</p>
             </div>
 
-            <div class="header-date">
-                <span>📅</span>
-                <span id="currentDate"></span>
+            <div class="user-info">
+                👤 <span id="userEmail">Administrator</span>
             </div>
 
-        </header>
+        </div>
 
 
         <!-- STATISTICS -->
-        <section class="stats-grid">
+        <div class="cards">
 
-            <div class="stat-card students-card">
-
-                <div class="stat-icon">
-                    👨‍🎓
+            <div class="card stat-card">
+                <div>
+                    <h3>Total Students</h3>
+                    <div class="number" id="totalStudents">25</div>
                 </div>
 
-                <div class="stat-info">
-                    <span>Total Students</span>
-                    <strong id="totalStudents">0</strong>
-                    <small>Registered students</small>
-                </div>
-
+                <div class="stat-icon">👨‍🎓</div>
             </div>
 
 
-            <div class="stat-card scholarship-card">
-
-                <div class="stat-icon">
-                    🎓
+            <div class="card stat-card">
+                <div>
+                    <h3>Scholarship Programs</h3>
+                    <div class="number" id="totalScholarships">3</div>
                 </div>
 
-                <div class="stat-info">
-                    <span>Active Scholars</span>
-                    <strong id="activeScholars">0</strong>
-                    <small>Currently active</small>
-                </div>
-
+                <div class="stat-icon">🎓</div>
             </div>
 
 
-            <div class="stat-card requirements-card">
-
-                <div class="stat-icon">
-                    📋
+            <div class="card stat-card">
+                <div>
+                    <h3>Compliant Scholars</h3>
+                    <div class="number" id="compliantStudents">20</div>
                 </div>
 
-                <div class="stat-info">
-                    <span>Pending Requirements</span>
-                    <strong id="pendingRequirements">0</strong>
-                    <small>Need attention</small>
-                </div>
-
+                <div class="stat-icon">✅</div>
             </div>
 
 
-            <div class="stat-card compliance-card">
-
-                <div class="stat-icon">
-                    ✅
+            <div class="card stat-card">
+                <div>
+                    <h3>Pending Requirements</h3>
+                    <div class="number" id="pendingRequirements">1</div>
                 </div>
 
-                <div class="stat-info">
-                    <span>Compliant Students</span>
-                    <strong id="compliantStudents">0</strong>
-                    <small>Meeting requirements</small>
-                </div>
-
+                <div class="stat-icon">📋</div>
             </div>
 
-        </section>
+        </div>
 
 
-        <!-- CONTENT GRID -->
-        <section class="dashboard-grid">
+        <!-- CONTENT -->
+        <div class="content-grid">
 
             <!-- RECENT STUDENTS -->
-            <div class="dashboard-panel recent-panel">
+            <div class="card">
 
-                <div class="panel-header">
-
-                    <div>
-                        <h2>Recent Students</h2>
-                        <p>Recently registered scholarship students</p>
-                    </div>
-
-                    <a href="students.html" class="view-all">
-                        View All →
-                    </a>
-
+                <div class="card-header">
+                    <h2>Recent Students</h2>
+                    <a href="students.html">View All</a>
                 </div>
 
                 <div class="table-container">
@@ -189,15 +536,63 @@
 
                         <thead>
                             <tr>
-                                <th>Student ID</th>
-                                <th>Full Name</th>
+                                <th>ID</th>
+                                <th>Student Name</th>
                                 <th>Course</th>
-                                <th>Year Level</th>
+                                <th>Scholarship</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
 
-                        <tbody id="recentStudentsTable">
+                        <tbody>
+
+                            <tr>
+                                <td>STU-001</td>
+                                <td>Maria Santos</td>
+                                <td>BS Education</td>
+                                <td>Academic Excellence</td>
+                                <td>
+                                    <span class="status active">
+                                        Active
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>STU-002</td>
+                                <td>Mark Reyes</td>
+                                <td>BS Business</td>
+                                <td>Government Scholarship</td>
+                                <td>
+                                    <span class="status active">
+                                        Active
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>STU-003</td>
+                                <td>Ana Cruz</td>
+                                <td>BSIT</td>
+                                <td>Private Foundation</td>
+                                <td>
+                                    <span class="status warning">
+                                        At Risk
+                                    </span>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>STU-004</td>
+                                <td>John Garcia</td>
+                                <td>BS Education</td>
+                                <td>Government Scholarship</td>
+                                <td>
+                                    <span class="status danger">
+                                        Probation
+                                    </span>
+                                </td>
+                            </tr>
 
                         </tbody>
 
@@ -208,84 +603,112 @@
             </div>
 
 
-            <!-- QUICK ACTIONS -->
-            <div class="dashboard-panel quick-panel">
+            <!-- SCHOLARSHIPS -->
+            <div class="card">
 
-                <div class="panel-header">
-                    <div>
-                        <h2>Quick Actions</h2>
-                        <p>Common tasks</p>
+                <div class="card-header">
+                    <h2>Scholarship Programs</h2>
+                    <a href="scholarships.html">View All</a>
+                </div>
+
+
+                <div class="scholarship-item">
+
+                    <div class="scholarship-name">
+                        Academic Excellence
                     </div>
+
+                    <div class="scholarship-info">
+                        <span>10 Scholars</span>
+                        <span>10 / 15 Slots</span>
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 67%;"></div>
+                    </div>
+
                 </div>
 
-                <div class="quick-actions">
 
-                    <a href="students.html" class="quick-action">
-                        <span>👨‍🎓</span>
-                        <div>
-                            <strong>Add Student</strong>
-                            <small>Register a new student</small>
-                        </div>
-                        <b>›</b>
-                    </a>
+                <div class="scholarship-item">
 
-                    <a href="scholarships.html" class="quick-action">
-                        <span>🎓</span>
-                        <div>
-                            <strong>Manage Scholarships</strong>
-                            <small>View scholarship programs</small>
-                        </div>
-                        <b>›</b>
-                    </a>
+                    <div class="scholarship-name">
+                        Government Scholarship
+                    </div>
 
-                    <a href="requirements.html" class="quick-action">
-                        <span>📋</span>
-                        <div>
-                            <strong>Check Requirements</strong>
-                            <small>Monitor submissions</small>
-                        </div>
-                        <b>›</b>
-                    </a>
+                    <div class="scholarship-info">
+                        <span>12 Scholars</span>
+                        <span>12 / 20 Slots</span>
+                    </div>
 
-                    <a href="reports.html" class="quick-action">
-                        <span>📈</span>
-                        <div>
-                            <strong>Generate Report</strong>
-                            <small>View system reports</small>
-                        </div>
-                        <b>›</b>
-                    </a>
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 60%;"></div>
+                    </div>
+
+                </div>
+
+
+                <div class="scholarship-item">
+
+                    <div class="scholarship-name">
+                        Private Foundation
+                    </div>
+
+                    <div class="scholarship-info">
+                        <span>3 Scholars</span>
+                        <span>3 / 10 Slots</span>
+                    </div>
+
+                    <div class="progress">
+                        <div class="progress-bar" style="width: 30%;"></div>
+                    </div>
 
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
 
-        <!-- SYSTEM STATUS -->
-        <section class="dashboard-panel system-panel">
+        <!-- QUICK ACTIONS -->
+        <div class="card">
 
-            <div class="system-status">
+            <div class="card-header">
+                <h2>Quick Actions</h2>
+            </div>
 
-                <div class="system-icon">
-                    ✓
-                </div>
+            <div class="quick-actions">
 
-                <div>
-                    <strong>System Status</strong>
-                    <p>
-                        Scholarship monitoring system is running normally.
-                    </p>
-                </div>
+                <button class="action-btn"
+                        onclick="window.location.href='students.html'">
+                    <div class="icon">👨‍🎓</div>
+                    <span>Add Student</span>
+                </button>
 
-                <span class="online-badge">
-                    ● Online
-                </span>
+
+                <button class="action-btn"
+                        onclick="window.location.href='scholarships.html'">
+                    <div class="icon">🎓</div>
+                    <span>Add Scholarship</span>
+                </button>
+
+
+                <button class="action-btn"
+                        onclick="window.location.href='requirements.html'">
+                    <div class="icon">📋</div>
+                    <span>Manage Requirements</span>
+                </button>
+
+
+                <button class="action-btn"
+                        onclick="window.location.href='reports.html'">
+                    <div class="icon">📈</div>
+                    <span>Generate Report</span>
+                </button>
 
             </div>
 
-        </section>
+        </div>
 
     </main>
 
@@ -295,44 +718,71 @@
 <!-- SUPABASE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<script src="js/supabase.js"></script>
-<script src="js/dashboard.js"></script>
-
 <script>
 
-    // Current date
-    const dateElement = document.getElementById("currentDate");
+    /*
+       IMPORTANT:
+       Use the SAME Supabase URL and
+       PUBLISHABLE KEY that you used in auth.js.
+    */
 
-    const today = new Date();
+    const SUPABASE_URL = "https://YOUR-PROJECT-ID.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY =
+        "sb_publishable_YOUR_KEY_HERE";
 
-    dateElement.textContent = today.toLocaleDateString(
-        "en-US",
-        {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric"
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
+
+    // CHECK LOGIN SESSION
+    async function checkSession() {
+
+        const {
+            data: { session }
+        } = await supabaseClient.auth.getSession();
+
+        if (!session) {
+            window.location.href = "index.html";
+            return;
         }
-    );
+
+        const userEmail =
+            document.getElementById("userEmail");
+
+        if (userEmail && session.user) {
+            userEmail.textContent =
+                session.user.email || "Administrator";
+        }
+    }
 
 
-    // Logout
-    document.getElementById("logoutBtn").addEventListener(
-        "click",
-        async function () {
+    // LOGOUT
+    document
+        .getElementById("logoutBtn")
+        .addEventListener("click", async function(event) {
 
-            if (typeof supabaseClient !== "undefined") {
+            event.preventDefault();
 
+            const { error } =
                 await supabaseClient.auth.signOut();
 
+            if (error) {
+                alert("Logout failed: " + error.message);
+                return;
             }
 
-            sessionStorage.removeItem("loggedIn");
+            localStorage.removeItem("loggedIn");
+            localStorage.removeItem("userEmail");
 
             window.location.href = "index.html";
+        });
 
-        }
-    );
+
+    // START
+    checkSession();
 
 </script>
 

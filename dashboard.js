@@ -1,145 +1,135 @@
-async function loadDashboard() {
+```javascript
+/* ==========================================
+   SCHOLARTRACK DASHBOARD
+   Uses the same localStorage data as Students
+========================================== */
+
+
+/* ==========================================
+   LOAD DASHBOARD
+========================================== */
+
+function loadDashboard() {
 
     try {
 
-        // STUDENTS
-        const { data: students, error: studentError } =
-            await supabaseClient
-                .from("students")
-                .select("*");
+        /* =========================
+           GET DATA
+        ========================= */
 
-        if (studentError) {
-            console.error(studentError);
-            return;
-        }
+        const students =
+            getData("students") || [];
 
+        const requirements =
+            getData("requirements") || [];
 
-        // REQUIREMENTS
-        const { data: requirements, error: requirementError } =
-            await supabaseClient
-                .from("requirements")
-                .select("*");
-
-        if (requirementError) {
-            console.error(requirementError);
-        }
+        const compliance =
+            getData("compliance") || [];
 
 
-        // COMPLIANCE
-        const { data: compliance, error: complianceError } =
-            await supabaseClient
-                .from("academic_compliance")
-                .select("*");
+        /* =========================
+           TOTAL STUDENTS
+        ========================= */
 
-        if (complianceError) {
-            console.error(complianceError);
+        const totalStudents =
+            document.getElementById("totalStudents");
+
+        if (totalStudents) {
+
+            totalStudents.textContent =
+                students.length;
+
         }
 
 
         /* =========================
-           DASHBOARD COUNTS
+           ACTIVE SCHOLARS
         ========================= */
 
-        document.getElementById("totalStudents").textContent =
-            students?.length || 0;
-
-
         const activeScholars =
-            students?.filter(
-                student => student.status === "Active"
-            ).length || 0;
+            students.filter(student =>
+                String(student.status)
+                    .toLowerCase() === "active"
+            ).length;
 
-        document.getElementById("activeScholars").textContent =
-            activeScholars;
 
+        const activeElement =
+            document.getElementById("activeScholars");
+
+        if (activeElement) {
+
+            activeElement.textContent =
+                activeScholars;
+
+        }
+
+
+        /* =========================
+           PENDING REQUIREMENTS
+        ========================= */
 
         const pendingRequirements =
-            requirements?.filter(
-                requirement =>
-                    requirement.submission_status === "Pending" ||
-                    requirement.submission_status === "Missing"
-            ).length || 0;
+            requirements.filter(requirement => {
 
-        document.getElementById("pendingRequirements").textContent =
-            pendingRequirements;
+                const status =
+                    String(
+                        requirement.submission_status || ""
+                    ).toLowerCase();
 
+                return (
+                    status === "pending" ||
+                    status === "missing"
+                );
+
+            }).length;
+
+
+        const requirementElement =
+            document.getElementById(
+                "pendingRequirements"
+            );
+
+        if (requirementElement) {
+
+            requirementElement.textContent =
+                pendingRequirements;
+
+        }
+
+
+        /* =========================
+           COMPLIANT STUDENTS
+        ========================= */
 
         const compliantStudents =
-            compliance?.filter(
-                item =>
-                    item.compliance_status === "Compliant"
-            ).length || 0;
+            compliance.filter(item => {
 
-        document.getElementById("compliantStudents").textContent =
-            compliantStudents;
+                return String(
+                    item.compliance_status || ""
+                ).toLowerCase() === "compliant";
+
+            }).length;
+
+
+        const complianceElement =
+            document.getElementById(
+                "compliantStudents"
+            );
+
+        if (complianceElement) {
+
+            complianceElement.textContent =
+                compliantStudents;
+
+        }
 
 
         /* =========================
            RECENT STUDENTS
         ========================= */
 
-        const table =
-            document.getElementById("recentStudentsTable");
+        renderRecentStudents(students);
 
-        table.innerHTML = "";
-
-
-        const recentStudents =
-            (students || []).slice(-5).reverse();
-
-
-        if (recentStudents.length === 0) {
-
-            table.innerHTML = `
-                <tr>
-                    <td colspan="5"
-                        style="text-align:center; padding:30px; color:#999;">
-                        No students registered yet.
-                    </td>
-                </tr>
-            `;
-
-            return;
-        }
-
-
-        recentStudents.forEach(student => {
-
-            const statusClass =
-                student.status?.toLowerCase() === "active"
-                    ? "status-active"
-                    : "status-inactive";
-
-
-            table.innerHTML += `
-                <tr>
-
-                    <td>
-                        <strong>${student.student_id}</strong>
-                    </td>
-
-                    <td>
-                        ${student.full_name}
-                    </td>
-
-                    <td>
-                        ${student.course}
-                    </td>
-
-                    <td>
-                        ${student.year_level}
-                    </td>
-
-                    <td>
-                        <span class="status-badge ${statusClass}">
-                            ${student.status}
-                        </span>
-                    </td>
-
-                </tr>
-            `;
-
-        });
 
     } catch (error) {
 
@@ -153,9 +143,168 @@ async function loadDashboard() {
 }
 
 
-/* LOAD DASHBOARD */
+/* ==========================================
+   RENDER RECENT STUDENTS
+========================================== */
+
+function renderRecentStudents(students) {
+
+    const table =
+        document.getElementById(
+            "recentStudentsTable"
+        );
+
+
+    if (!table) {
+        return;
+    }
+
+
+    table.innerHTML = "";
+
+
+    /* =========================
+       NO STUDENTS
+    ========================= */
+
+    if (!students.length) {
+
+        table.innerHTML = `
+            <tr>
+
+                <td
+                    colspan="5"
+                    style="
+                        text-align:center;
+                        padding:30px;
+                        color:#999;
+                    "
+                >
+
+                    No students registered yet.
+
+                </td>
+
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    /* =========================
+       GET LAST 5 STUDENTS
+    ========================= */
+
+    const recentStudents =
+        students
+            .slice()
+            .reverse()
+            .slice(0, 5);
+
+
+    /* =========================
+       DISPLAY STUDENTS
+    ========================= */
+
+    recentStudents.forEach(student => {
+
+        const status =
+            student.status || "Inactive";
+
+
+        const statusClass =
+            String(status)
+                .toLowerCase() === "active"
+                ? "status-active"
+                : "status-inactive";
+
+
+        const row =
+            document.createElement("tr");
+
+
+        row.innerHTML = `
+
+            <td>
+                <span class="student-id">
+                    ${escapeHTML(student.student_id || "-")}
+                </span>
+            </td>
+
+
+            <td>
+                <span class="student-name">
+                    ${escapeHTML(student.full_name || "-")}
+                </span>
+            </td>
+
+
+            <td>
+                ${escapeHTML(student.course || "-")}
+            </td>
+
+
+            <td>
+                ${escapeHTML(student.year_level || "-")}
+            </td>
+
+
+            <td>
+
+                <span class="status-badge ${statusClass}">
+                    ${escapeHTML(status)}
+                </span>
+
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+}
+
+
+/* ==========================================
+   SAFE HTML
+========================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+/* ==========================================
+   REFRESH DASHBOARD
+========================================== */
+
+function refreshDashboard() {
+
+    loadDashboard();
+
+}
+
+
+/* ==========================================
+   LOAD WHEN PAGE OPENS
+========================================== */
 
 document.addEventListener(
     "DOMContentLoaded",
-    loadDashboard
+    function () {
+
+        loadDashboard();
+
+    }
 );

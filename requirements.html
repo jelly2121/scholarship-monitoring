@@ -1,493 +1,863 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ScholarTrack - Requirements</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-* {
-    box-sizing: border-box;
-}
+    <title>ScholarTrack - Scholarships</title>
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6fb;
-    color: #24213a;
-}
+    <style>
 
-.app {
-    display: flex;
-    min-height: 100vh;
-}
+        * {
+            box-sizing: border-box;
+        }
 
-/* SIDEBAR */
-.sidebar {
-    width: 250px;
-    background: #211a3d;
-    color: white;
-    padding: 25px 15px;
-    position: fixed;
-    height: 100vh;
-    left: 0;
-    top: 0;
-}
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #24213a;
+        }
 
-.logo {
-    font-size: 25px;
-    font-weight: bold;
-    margin-bottom: 35px;
-    padding-left: 10px;
-}
+        .app {
+            display: flex;
+            min-height: 100vh;
+        }
 
-.nav a {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    color: #ddd9ed;
-    padding: 14px 15px;
-    border-radius: 10px;
-    margin-bottom: 5px;
-    font-size: 16px;
-}
+        /* =========================
+           SIDEBAR
+        ========================= */
 
-.nav a:hover,
-.nav a.active {
-    background: #3c3266;
-    color: white;
-}
+        .sidebar {
+            width: 250px;
+            background: #211a3d;
+            color: white;
+            padding: 25px 15px;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+        }
 
-.logout {
-    margin-top: 25px;
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: white;
-    color: #211a3d;
-    font-size: 15px;
-    cursor: pointer;
-}
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 35px;
+            padding-left: 10px;
+        }
 
-/* MAIN */
-.main {
-    margin-left: 250px;
-    width: calc(100% - 250px);
-    padding: 35px;
-}
+        .nav a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ddd9ed;
+            padding: 14px 15px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
 
-.page-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
+        .nav a:hover,
+        .nav a.active {
+            background: #3c3266;
+            color: white;
+        }
 
-.page-header h1 {
-    margin: 0;
-    font-size: 30px;
-    color: #272044;
-}
+        .logout {
+            margin-top: 25px;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: #211a3d;
+            font-size: 15px;
+            cursor: pointer;
+        }
 
-.page-header p {
-    color: #77748a;
-}
+        .logout:hover {
+            background: #eeeaf8;
+        }
 
-.add-btn {
-    background: #3b6798;
-    color: white;
-    border: none;
-    padding: 13px 20px;
-    border-radius: 9px;
-    cursor: pointer;
-}
+        /* =========================
+           MAIN
+        ========================= */
 
-/* SUMMARY */
-.summary {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-    margin-bottom: 25px;
-}
+        .main {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 35px;
+        }
 
-.summary-card {
-    background: white;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 3px 12px rgba(0,0,0,.06);
-}
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
 
-.summary-card span {
-    color: #77748a;
-    font-size: 14px;
-}
+        .page-header h1 {
+            margin: 0;
+            font-size: 30px;
+            color: #272044;
+        }
 
-.summary-card h2 {
-    margin: 8px 0 0;
-    color: #292348;
-}
+        .page-header p {
+            margin-top: 7px;
+            color: #77748a;
+        }
 
-/* TABLE */
-.card {
-    background: white;
-    border-radius: 15px;
-    padding: 25px;
-    box-shadow: 0 3px 15px rgba(0,0,0,.06);
-}
+        .add-btn {
+            background: #3b6798;
+            color: white;
+            border: none;
+            padding: 13px 20px;
+            border-radius: 9px;
+            font-size: 15px;
+            cursor: pointer;
+        }
 
-.table-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
+        .add-btn:hover {
+            background: #2f5785;
+        }
 
-.table-header h2 {
-    margin: 0;
-}
+        /* =========================
+           SUMMARY
+        ========================= */
 
-.search {
-    width: 300px;
-    padding: 11px;
-    border: 1px solid #d7d7df;
-    border-radius: 8px;
-}
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
 
-.table-wrapper {
-    overflow-x: auto;
-}
+        .summary-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    min-width: 900px;
-}
+        .summary-card span {
+            color: #77748a;
+            font-size: 14px;
+        }
 
-th {
-    text-align: left;
-    padding: 15px;
-    background: #f6f7fb;
-    color: #5d5a70;
-}
+        .summary-card h2 {
+            margin: 8px 0 0;
+            font-size: 27px;
+            color: #292348;
+        }
 
-td {
-    padding: 17px 12px;
-    border-bottom: 1px solid #eee;
-}
+        /* =========================
+           SCHOLARSHIP TABLE
+        ========================= */
 
-.name {
-    font-weight: bold;
-}
+        .scholarship-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        }
 
-.status {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: bold;
-}
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-.complete {
-    background: #e5f8ec;
-    color: #238448;
-}
+        .table-header h2 {
+            margin: 0;
+            color: #292348;
+        }
 
-.pending {
-    background: #fff3d6;
-    color: #a66b00;
-}
+        .search {
+            width: 280px;
+            padding: 11px 14px;
+            border: 1px solid #d7d7df;
+            border-radius: 8px;
+            outline: none;
+        }
 
-.missing {
-    background: #fde8e8;
-    color: #c23b3b;
-}
+        .search:focus {
+            border-color: #3b6798;
+        }
 
-.action {
-    border: none;
-    padding: 7px 11px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        .table-wrapper {
+            overflow-x: auto;
+        }
 
-.view {
-    background: #e8eef8;
-    color: #315d91;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
 
-/* RESPONSIVE */
-@media(max-width:900px) {
-    .sidebar {
-        width: 200px;
-    }
+        th {
+            text-align: left;
+            padding: 15px 12px;
+            background: #f6f7fb;
+            color: #5d5a70;
+            font-size: 14px;
+        }
 
-    .main {
-        margin-left: 200px;
-        width: calc(100% - 200px);
-    }
+        td {
+            padding: 17px 12px;
+            border-bottom: 1px solid #eeeeF3;
+            font-size: 14px;
+        }
 
-    .summary {
-        grid-template-columns: repeat(2,1fr);
-    }
-}
+        tr:hover {
+            background: #fafaff;
+        }
 
-@media(max-width:650px) {
-    .app {
-        display: block;
-    }
+        .scholarship-name {
+            font-weight: bold;
+            color: #292348;
+        }
 
-    .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-    }
+        .scholarship-id {
+            color: #77748a;
+        }
 
-    .main {
-        margin: 0;
-        width: 100%;
-        padding: 20px;
-    }
+        .amount {
+            font-weight: bold;
+            color: #315d91;
+        }
 
-    .summary {
-        grid-template-columns: 1fr;
-    }
+        /* =========================
+           STATUS
+        ========================= */
 
-    .page-header {
-        display: block;
-    }
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
-    .table-header {
-        display: block;
-    }
+        .active {
+            background: #e5f8ec;
+            color: #238448;
+        }
 
-    .search {
-        width: 100%;
-        margin-top: 15px;
-    }
-}
-</style>
+        .pending {
+            background: #fff3d6;
+            color: #a66b00;
+        }
+
+        .closed {
+            background: #fbe7e7;
+            color: #c23b3b;
+        }
+
+        /* =========================
+           ACTION BUTTONS
+        ========================= */
+
+        .action-btn {
+            border: none;
+            padding: 7px 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-right: 4px;
+        }
+
+        .view {
+            background: #e8eef8;
+            color: #315d91;
+        }
+
+        .edit {
+            background: #eee9fb;
+            color: #6748a5;
+        }
+
+        .delete {
+            background: #fde8e8;
+            color: #c43838;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(20, 15, 40, 0.55);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: white;
+            width: 520px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 15px;
+            padding: 28px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: #292348;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #454158;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d5d5df;
+            border-radius: 7px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #3b6798;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .cancel-btn {
+            background: #eeeeF3;
+            color: #444;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background: #dddde5;
+        }
+
+        .save-btn {
+            background: #3b6798;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .save-btn:hover {
+            background: #2f5785;
+        }
+
+        /* =========================
+           EMPTY TABLE
+        ========================= */
+
+        .empty-message {
+            text-align: center;
+            padding: 30px;
+            color: #77748a;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 900px) {
+
+            .sidebar {
+                width: 200px;
+            }
+
+            .main {
+                margin-left: 200px;
+                width: calc(100% - 200px);
+                padding: 20px;
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+            .app {
+                display: block;
+            }
+
+            .main {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .page-header {
+                display: block;
+            }
+
+            .add-btn {
+                margin-top: 15px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .table-header {
+                display: block;
+            }
+
+            .search {
+                width: 100%;
+                margin-top: 15px;
+            }
+
+        }
+
+    </style>
+
 </head>
 
 <body>
 
 <div class="app">
 
-<aside class="sidebar">
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
 
-    <div class="logo">🎓 ScholarTrack</div>
+    <aside class="sidebar">
 
-    <nav class="nav">
-        <a href="dashboard.html">📊 Dashboard</a>
-        <a href="students.html">👩‍🎓 Students</a>
-        <a href="scholarships.html">🎓 Scholarships</a>
-        <a href="requirements.html" class="active">📋 Requirements</a>
-        <a href="compliance.html">📈 Academic Compliance</a>
-        <a href="reports.html">📑 Reports</a>
-    </nav>
+        <div class="logo">
+            🎓 ScholarTrack
+        </div>
 
-    <button class="logout" onclick="logout()">
-        ↪ Logout
-    </button>
+        <nav class="nav">
 
-</aside>
+            <a href="dashboard.html">
+                📊 Dashboard
+            </a>
 
-<main class="main">
+            <a href="students.html">
+                👩‍🎓 Students
+            </a>
 
-<div class="page-header">
+            <a href="scholarships.html" class="active">
+                🎓 Scholarships
+            </a>
 
-    <div>
-        <h1>Scholarship Requirements</h1>
-        <p>Track documents and requirements submitted by scholars.</p>
-    </div>
+            <a href="requirements.html">
+                📋 Requirements
+            </a>
 
-   <button class="btn" id="addRequirementBtn">
-    + Add Requirement
-</button>
+            <a href="compliance.html">
+                📈 Academic Compliance
+            </a>
+
+            <a href="reports.html">
+                📑 Reports
+            </a>
+
+        </nav>
+
+        <button class="logout" onclick="logout()">
+            ↪ Logout
+        </button>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="main">
+
+        <!-- HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <h1>
+                    Scholarship Management
+                </h1>
+
+                <p>
+                    Manage scholarship programs and monitor available benefits.
+                </p>
+
+            </div>
+
+            <button
+                class="add-btn"
+                onclick="openScholarshipForm()">
+
+                + Add Scholarship
+
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             SUMMARY CARDS
+        ========================= -->
+
+        <div class="summary">
+
+            <div class="summary-card">
+
+                <span>
+                    Total Scholarships
+                </span>
+
+                <h2 id="totalScholarships">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    Active Programs
+                </span>
+
+                <h2 id="activeScholarships">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    Pending Programs
+                </span>
+
+                <h2 id="pendingScholarships">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    Total Scholars
+                </span>
+
+                <h2 id="totalScholars">
+                    0
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SCHOLARSHIP TABLE
+        ========================= -->
+
+        <section class="scholarship-card">
+
+            <div class="table-header">
+
+                <h2>
+                    Scholarship Programs
+                </h2>
+
+                <input
+                    type="text"
+                    class="search"
+                    id="searchScholarship"
+                    placeholder="🔍 Search scholarship..."
+                    onkeyup="searchScholarship()"
+                >
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>
+                                Scholarship Name
+                            </th>
+
+                            <th>
+                                Provider
+                            </th>
+
+                            <th>
+                                Coverage
+                            </th>
+
+                            <th>
+                                Amount
+                            </th>
+
+                            <th>
+                                Slots
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody id="scholarshipTable">
+
+                        <tr>
+
+                            <td
+                                colspan="8"
+                                class="empty-message">
+
+                                Loading scholarships...
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
 
 </div>
 
-<div class="summary">
 
-    <div class="summary-card">
-        <span>Total Requirements</span>
-        <h2>6</h2>
-    </div>
+<!-- =========================
+     ADD / EDIT SCHOLARSHIP MODAL
+========================= -->
 
-    <div class="summary-card">
-        <span>Completed</span>
-        <h2>4</h2>
-    </div>
+<div
+    class="modal"
+    id="scholarshipModal">
 
-    <div class="summary-card">
-        <span>Pending</span>
-        <h2>1</h2>
-    </div>
+    <div class="modal-content">
 
-    <div class="summary-card">
-        <span>Missing</span>
-        <h2>1</h2>
+        <h2>
+            Add Scholarship
+        </h2>
+
+
+        <!-- SCHOLARSHIP NAME -->
+
+        <div class="form-group">
+
+            <label for="scholarshipName">
+                Scholarship Name
+            </label>
+
+            <input
+                type="text"
+                id="scholarshipName"
+                placeholder="Enter scholarship name"
+            >
+
+        </div>
+
+
+        <!-- PROVIDER -->
+
+        <div class="form-group">
+
+            <label for="provider">
+                Provider
+            </label>
+
+            <input
+                type="text"
+                id="provider"
+                placeholder="Enter provider"
+            >
+
+        </div>
+
+
+        <!-- COVERAGE -->
+
+        <div class="form-group">
+
+            <label for="coverage">
+                Coverage
+            </label>
+
+            <input
+                type="text"
+                id="coverage"
+                placeholder="e.g. Tuition + Allowance"
+            >
+
+        </div>
+
+
+        <!-- AMOUNT -->
+
+        <div class="form-group">
+
+            <label for="amount">
+                Amount
+            </label>
+
+            <input
+                type="number"
+                id="amount"
+                min="0"
+                placeholder="Enter amount"
+            >
+
+        </div>
+
+
+        <!-- SLOTS -->
+
+        <div class="form-group">
+
+            <label for="slots">
+                Available Slots
+            </label>
+
+            <input
+                type="number"
+                id="slots"
+                min="0"
+                placeholder="Enter number of slots"
+            >
+
+        </div>
+
+
+        <!-- STATUS -->
+
+        <div class="form-group">
+
+            <label for="status">
+                Status
+            </label>
+
+            <select id="status">
+
+                <option value="Active">
+                    Active
+                </option>
+
+                <option value="Pending">
+                    Pending
+                </option>
+
+                <option value="Closed">
+                    Closed
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- BUTTONS -->
+
+        <div class="modal-buttons">
+
+            <button
+                type="button"
+                class="cancel-btn"
+                onclick="closeScholarshipForm()">
+
+                Cancel
+
+            </button>
+
+
+            <button
+                type="button"
+                class="save-btn"
+                onclick="saveScholarship()">
+
+                Save Scholarship
+
+            </button>
+
+        </div>
+
     </div>
 
 </div>
 
-<section class="card">
 
-<div class="table-header">
+<!-- =========================
+     JAVASCRIPT
+========================= -->
 
-    <h2>Student Requirements</h2>
-
-    <input
-        class="search"
-        id="search"
-        onkeyup="filterRows()"
-        placeholder="🔍 Search student or requirement..."
-    >
-
-</div>
-
-<div class="table-wrapper">
-
-<table>
-
-<thead>
-<tr>
-    <th>ID</th>
-    <th>Student</th>
-    <th>Requirement</th>
-    <th>Scholarship</th>
-    <th>Due Date</th>
-    <th>Status</th>
-    <th>Action</th>
-</tr>
-</thead>
-
-<tbody id="rows">
-
-<tr>
-<td>REQ-001</td>
-<td class="name">Maria Santos</td>
-<td>Certificate of Enrollment</td>
-<td>Academic Excellence</td>
-<td>Oct 05, 2026</td>
-<td>
-    <span class="status complete">
-        Completed
-    </span>
-</td>
-<td>
-    <button class="action view"
-            onclick="viewRequirement('REQ-001')">
-        View
-    </button>
-</td>
-</tr>
-
-<tr>
-<td>REQ-002</td>
-<td class="name">Maria Santos</td>
-<td>Grade Report</td>
-<td>Academic Excellence</td>
-<td>Oct 10, 2026</td>
-<td>
-    <span class="status pending">
-        Pending
-    </span>
-</td>
-<td>
-    <button class="action view"
-            onclick="viewRequirement('REQ-002')">
-        View
-    </button>
-</td>
-</tr>
-
-<tr>
-<td>REQ-003</td>
-<td class="name">Mark Reyes</td>
-<td>Certificate of Enrollment</td>
-<td>Government Scholarship</td>
-<td>Oct 05, 2026</td>
-<td>
-    <span class="status complete">
-        Completed
-    </span>
-</td>
-<td>
-    <button class="action view"
-            onclick="viewRequirement('REQ-003')">
-        View
-    </button>
-</td>
-</tr>
-
-<tr>
-<td>REQ-004</td>
-<td class="name">Mark Reyes</td>
-<td>Income Certificate</td>
-<td>Government Scholarship</td>
-<td>Oct 12, 2026</td>
-<td>
-    <span class="status missing">
-        Missing
-    </span>
-</td>
-<td>
-    <button class="action view"
-            onclick="viewRequirement('REQ-004')">
-        View
-    </button>
-</td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-</section>
-
-</main>
-</div>
-
-<script>
-
-function filterRows() {
-
-    const search =
-        document
-        .getElementById("search")
-        .value
-        .toLowerCase();
-
-    document
-    .querySelectorAll("#rows tr")
-    .forEach(row => {
-
-        row.style.display =
-            row.textContent
-            .toLowerCase()
-            .includes(search)
-            ? ""
-            : "none";
-
-    });
-
-}
-
-function addRequirement() {
-    alert("Add Requirement form");
-}
-
-function viewRequirement(id) {
-    alert("Viewing requirement: " + id);
-}
-
-function logout() {
-    localStorage.removeItem("loggedIn");
-    window.location.href = "index.html";
-}
-
-</script>
+<script src="dashboard.js"></script>
+<script src="scholarship.js"></script>
 
 </body>
+
 </html>

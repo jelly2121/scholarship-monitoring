@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>ScholarTrack - Students</title>
 
     <link rel="stylesheet" href="style.css">
 
     <style>
+
         * {
             box-sizing: border-box;
         }
@@ -24,7 +30,11 @@
             min-height: 100vh;
         }
 
-        /* SIDEBAR */
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
         .sidebar {
             width: 250px;
             background: #211a3d;
@@ -73,11 +83,11 @@
             cursor: pointer;
         }
 
-        .logout:hover {
-            background: #eeeaf8;
-        }
 
-        /* MAIN */
+        /* =========================
+           MAIN
+        ========================= */
+
         .main {
             margin-left: 250px;
             width: calc(100% - 250px);
@@ -116,7 +126,11 @@
             background: #2f5785;
         }
 
-        /* SUMMARY CARDS */
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
         .summary {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -142,7 +156,11 @@
             color: #292348;
         }
 
-        /* TABLE CARD */
+
+        /* =========================
+           TABLE
+        ========================= */
+
         .student-card {
             background: white;
             border-radius: 15px;
@@ -168,10 +186,6 @@
             border: 1px solid #d7d7df;
             border-radius: 8px;
             outline: none;
-        }
-
-        .search:focus {
-            border-color: #3b6798;
         }
 
         .table-wrapper {
@@ -211,7 +225,11 @@
             color: #77748a;
         }
 
-        /* STATUS */
+
+        /* =========================
+           STATUS
+        ========================= */
+
         .status {
             display: inline-block;
             padding: 6px 12px;
@@ -230,7 +248,11 @@
             color: #c23b3b;
         }
 
-        /* ACTIONS */
+
+        /* =========================
+           ACTIONS
+        ========================= */
+
         .action-btn {
             border: none;
             padding: 7px 11px;
@@ -249,11 +271,124 @@
             color: #c43838;
         }
 
-        .action-btn:hover {
-            opacity: .8;
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            z-index: 999;
         }
 
-        /* RESPONSIVE */
+        .modal.hidden {
+            display: none;
+        }
+
+        .modal-box {
+            width: 500px;
+            max-width: 92%;
+
+            background: white;
+            border-radius: 15px;
+
+            padding: 28px;
+
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #292348;
+        }
+
+        .close {
+            border: none;
+            background: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #777;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px 12px;
+
+            border: 1px solid #d7d7df;
+            border-radius: 8px;
+
+            outline: none;
+            font-size: 14px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #3b6798;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .submit-btn {
+            background: #3b6798;
+            color: white;
+
+            border: none;
+            border-radius: 8px;
+
+            padding: 11px 20px;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background: #eee;
+
+            color: #333;
+
+            border: none;
+            border-radius: 8px;
+
+            padding: 11px 20px;
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
         @media (max-width: 900px) {
 
             .sidebar {
@@ -269,6 +404,7 @@
             .summary {
                 grid-template-columns: repeat(2, 1fr);
             }
+
         }
 
         @media (max-width: 650px) {
@@ -308,15 +444,23 @@
                 width: 100%;
                 margin-top: 15px;
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
 <div class="app">
 
-    <!-- SIDEBAR -->
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
     <aside class="sidebar">
 
         <div class="logo">
@@ -358,56 +502,112 @@
     </aside>
 
 
-    <!-- MAIN CONTENT -->
+    <!-- =========================
+         MAIN
+    ========================= -->
+
     <main class="main">
 
+
         <!-- HEADER -->
+
         <div class="page-header">
 
             <div>
-                <h1>Student Information</h1>
-                <p>Manage and monitor all registered scholars.</p>
+
+                <h1>
+                    Student Information
+                </h1>
+
+                <p>
+                    Manage and monitor all registered scholars.
+                </p>
+
             </div>
 
-            <button class="add-btn" onclick="openStudentForm()">
+
+            <button
+                class="add-btn"
+                onclick="openStudentForm()">
+
                 + Add Student
+
             </button>
 
         </div>
 
 
-        <!-- SUMMARY -->
+        <!-- =========================
+             SUMMARY
+        ========================= -->
+
         <div class="summary">
 
             <div class="summary-card">
-                <span>Total Students</span>
-                <h2 id="totalStudents">2</h2>
+
+                <span>
+                    Total Students
+                </span>
+
+                <h2 id="totalStudents">
+                    0
+                </h2>
+
             </div>
 
-            <div class="summary-card">
-                <span>Active Students</span>
-                <h2 id="activeStudents">2</h2>
-            </div>
 
             <div class="summary-card">
-                <span>Inactive Students</span>
-                <h2 id="inactiveStudents">0</h2>
+
+                <span>
+                    Active Students
+                </span>
+
+                <h2 id="activeStudents">
+                    0
+                </h2>
+
             </div>
 
+
             <div class="summary-card">
-                <span>Scholarship Holders</span>
-                <h2>2</h2>
+
+                <span>
+                    Inactive Students
+                </span>
+
+                <h2 id="inactiveStudents">
+                    0
+                </h2>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    Scholarship Holders
+                </span>
+
+                <h2 id="scholarshipHolders">
+                    0
+                </h2>
+
             </div>
 
         </div>
 
 
-        <!-- STUDENT TABLE -->
+        <!-- =========================
+             STUDENT TABLE
+        ========================= -->
+
         <section class="student-card">
 
             <div class="table-header">
 
-                <h2>Registered Students</h2>
+                <h2>
+                    Registered Students
+                </h2>
 
                 <input
                     type="text"
@@ -425,112 +625,33 @@
                 <table>
 
                     <thead>
+
                         <tr>
+
                             <th>ID</th>
+
                             <th>Student Name</th>
+
                             <th>Course</th>
+
                             <th>Year Level</th>
+
                             <th>Email</th>
+
                             <th>Contact</th>
+
                             <th>Status</th>
+
                             <th>Action</th>
+
                         </tr>
+
                     </thead>
+
 
                     <tbody id="studentTable">
 
-                        <tr>
-                            <td class="student-id">STU-001</td>
-
-                            <td>
-                                <div class="student-name">
-                                    Maria Santos
-                                </div>
-                            </td>
-
-                            <td>
-                                BS Education
-                            </td>
-
-                            <td>
-                                3rd Year
-                            </td>
-
-                            <td>
-                                maria@example.com
-                            </td>
-
-                            <td>
-                                09123456789
-                            </td>
-
-                            <td>
-                                <span class="status active">
-                                    Active
-                                </span>
-                            </td>
-
-                            <td>
-                                <button
-                                    class="action-btn edit"
-                                    onclick="editStudent('STU-001')">
-                                    Edit
-                                </button>
-
-                                <button
-                                    class="action-btn delete"
-                                    onclick="deleteStudent('STU-001')">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
-
-
-                        <tr>
-                            <td class="student-id">STU-002</td>
-
-                            <td>
-                                <div class="student-name">
-                                    Mark Reyes
-                                </div>
-                            </td>
-
-                            <td>
-                                BS Business Administration
-                            </td>
-
-                            <td>
-                                1st Year
-                            </td>
-
-                            <td>
-                                mark@example.com
-                            </td>
-
-                            <td>
-                                09987654321
-                            </td>
-
-                            <td>
-                                <span class="status active">
-                                    Active
-                                </span>
-                            </td>
-
-                            <td>
-                                <button
-                                    class="action-btn edit"
-                                    onclick="editStudent('STU-002')">
-                                    Edit
-                                </button>
-
-                                <button
-                                    class="action-btn delete"
-                                    onclick="deleteStudent('STU-002')">
-                                    Delete
-                                </button>
-                            </td>
-                        </tr>
+                        <!-- Students loaded by JavaScript -->
 
                     </tbody>
 
@@ -545,63 +666,899 @@
 </div>
 
 
+
+<!-- =========================
+     ADD STUDENT MODAL
+========================= -->
+
+<div
+    id="studentModal"
+    class="modal hidden"
+>
+
+    <div class="modal-box">
+
+
+        <div class="modal-header">
+
+            <h2>
+                Add Student
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeStudentForm()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <form id="studentForm">
+
+
+            <!-- STUDENT ID -->
+
+            <div class="form-group">
+
+                <label>
+                    Student ID *
+                </label>
+
+                <input
+                    type="text"
+                    id="studentId"
+                    placeholder="Example: STU-003"
+                    required
+                >
+
+            </div>
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label>
+                    Full Name *
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="Enter student's full name"
+                    required
+                >
+
+            </div>
+
+
+            <!-- COURSE -->
+
+            <div class="form-group">
+
+                <label>
+                    Course *
+                </label>
+
+                <input
+                    type="text"
+                    id="studentCourse"
+                    placeholder="Example: BSIT"
+                    required
+                >
+
+            </div>
+
+
+            <!-- YEAR -->
+
+            <div class="form-group">
+
+                <label>
+                    Year Level *
+                </label>
+
+                <select
+                    id="studentYear"
+                    required
+                >
+
+                    <option value="">
+                        Select Year Level
+                    </option>
+
+                    <option value="1st Year">
+                        1st Year
+                    </option>
+
+                    <option value="2nd Year">
+                        2nd Year
+                    </option>
+
+                    <option value="3rd Year">
+                        3rd Year
+                    </option>
+
+                    <option value="4th Year">
+                        4th Year
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="studentEmail"
+                    placeholder="student@example.com"
+                >
+
+            </div>
+
+
+            <!-- CONTACT -->
+
+            <div class="form-group">
+
+                <label>
+                    Contact Number
+                </label>
+
+                <input
+                    type="text"
+                    id="studentContact"
+                    placeholder="09XXXXXXXXX"
+                >
+
+            </div>
+
+
+            <!-- BUTTONS -->
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="cancel-btn"
+                    onclick="closeStudentForm()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="submit-btn"
+                >
+                    Submit
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
 <script>
 
-function searchStudent() {
+/* ==========================================
+   GET STUDENTS
+========================================== */
 
-    const input =
-        document.getElementById("searchStudent")
-        .value
-        .toLowerCase();
+function getStudents() {
 
-    const rows =
-        document.querySelectorAll("#studentTable tr");
+    try {
 
-    rows.forEach(row => {
+        const data =
+            localStorage.getItem("students");
 
-        const text =
-            row.textContent.toLowerCase();
+        return data
+            ? JSON.parse(data)
+            : [];
 
-        row.style.display =
-            text.includes(input) ? "" : "none";
+    } catch (error) {
 
-    });
+        console.error(error);
 
-}
-
-
-function editStudent(id) {
-
-    alert("Edit student: " + id);
-
-}
-
-
-function deleteStudent(id) {
-
-    if (confirm("Are you sure you want to delete " + id + "?")) {
-
-        alert("Student deleted.");
+        return [];
 
     }
 
 }
 
 
-function openStudentForm() {
+/* ==========================================
+   SAVE STUDENTS
+========================================== */
 
-    alert("Open Add Student Form");
+function saveStudents(students) {
+
+    localStorage.setItem(
+        "students",
+        JSON.stringify(students)
+    );
 
 }
 
+
+/* ==========================================
+   RENDER STUDENTS
+========================================== */
+
+function renderStudents() {
+
+    const students =
+        getStudents();
+
+    const table =
+        document.getElementById(
+            "studentTable"
+        );
+
+
+    table.innerHTML = "";
+
+
+    /* =========================
+       NO STUDENTS
+    ========================= */
+
+    if (students.length === 0) {
+
+        table.innerHTML = `
+
+            <tr>
+
+                <td
+                    colspan="8"
+                    style="
+                        text-align:center;
+                        padding:40px;
+                        color:#999;
+                    "
+                >
+
+                    No students registered yet.
+
+                </td>
+
+            </tr>
+
+        `;
+
+        updateSummary(students);
+
+        return;
+
+    }
+
+
+    /* =========================
+       DISPLAY STUDENTS
+    ========================= */
+
+    students.forEach(student => {
+
+        const row =
+            document.createElement("tr");
+
+
+        const name =
+            student.full_name ||
+            student.name ||
+            "-";
+
+
+        const status =
+            student.status ||
+            "Active";
+
+
+        const statusClass =
+            status.toLowerCase() === "active"
+            ? "active"
+            : "inactive";
+
+
+        row.innerHTML = `
+
+            <td class="student-id">
+
+                ${escapeHTML(
+                    student.student_id || "-"
+                )}
+
+            </td>
+
+
+            <td>
+
+                <div class="student-name">
+
+                    ${escapeHTML(name)}
+
+                </div>
+
+            </td>
+
+
+            <td>
+
+                ${escapeHTML(
+                    student.course || "-"
+                )}
+
+            </td>
+
+
+            <td>
+
+                ${escapeHTML(
+                    student.year_level || "-"
+                )}
+
+            </td>
+
+
+            <td>
+
+                ${escapeHTML(
+                    student.email || "-"
+                )}
+
+            </td>
+
+
+            <td>
+
+                ${escapeHTML(
+                    student.contact || "-"
+                )}
+
+            </td>
+
+
+            <td>
+
+                <span class="status ${statusClass}">
+
+                    ${escapeHTML(status)}
+
+                </span>
+
+            </td>
+
+
+            <td>
+
+                <button
+                    class="action-btn edit"
+                    onclick="editStudent('${escapeHTML(student.student_id)}')"
+                >
+                    Edit
+                </button>
+
+
+                <button
+                    class="action-btn delete"
+                    onclick="deleteStudent('${escapeHTML(student.student_id)}')"
+                >
+                    Delete
+                </button>
+
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+
+    });
+
+
+    updateSummary(students);
+
+}
+
+
+/* ==========================================
+   UPDATE SUMMARY
+========================================== */
+
+function updateSummary(students) {
+
+    const total =
+        students.length;
+
+
+    const active =
+        students.filter(student =>
+            String(student.status || "Active")
+                .toLowerCase() === "active"
+        ).length;
+
+
+    const inactive =
+        total - active;
+
+
+    const totalElement =
+        document.getElementById(
+            "totalStudents"
+        );
+
+    const activeElement =
+        document.getElementById(
+            "activeStudents"
+        );
+
+    const inactiveElement =
+        document.getElementById(
+            "inactiveStudents"
+        );
+
+
+    if (totalElement)
+        totalElement.textContent = total;
+
+
+    if (activeElement)
+        activeElement.textContent = active;
+
+
+    if (inactiveElement)
+        inactiveElement.textContent = inactive;
+
+
+    /* Scholarship holders */
+
+    const scholarshipHolders =
+        students.filter(student =>
+            student.scholarship === true ||
+            student.scholarship === "Yes" ||
+            student.scholarship_status === "Active"
+        ).length;
+
+
+    const scholarshipElement =
+        document.getElementById(
+            "scholarshipHolders"
+        );
+
+
+    if (scholarshipElement)
+        scholarshipElement.textContent =
+            scholarshipHolders;
+
+}
+
+
+/* ==========================================
+   OPEN ADD STUDENT FORM
+========================================== */
+
+function openStudentForm() {
+
+    document
+        .getElementById("studentForm")
+        .reset();
+
+
+    document
+        .getElementById("studentModal")
+        .classList.remove("hidden");
+
+}
+
+
+/* ==========================================
+   CLOSE FORM
+========================================== */
+
+function closeStudentForm() {
+
+    document
+        .getElementById("studentModal")
+        .classList.add("hidden");
+
+}
+
+
+/* ==========================================
+   SUBMIT STUDENT
+========================================== */
+
+document
+    .getElementById("studentForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const students =
+                getStudents();
+
+
+            /* =========================
+               GET FORM VALUES
+            ========================= */
+
+            const studentId =
+                document
+                    .getElementById("studentId")
+                    .value
+                    .trim();
+
+
+            const fullName =
+                document
+                    .getElementById("studentName")
+                    .value
+                    .trim();
+
+
+            const course =
+                document
+                    .getElementById("studentCourse")
+                    .value
+                    .trim();
+
+
+            const yearLevel =
+                document
+                    .getElementById("studentYear")
+                    .value;
+
+
+            const email =
+                document
+                    .getElementById("studentEmail")
+                    .value
+                    .trim();
+
+
+            const contact =
+                document
+                    .getElementById("studentContact")
+                    .value
+                    .trim();
+
+
+            /* =========================
+               DUPLICATE CHECK
+            ========================= */
+
+            const exists =
+                students.some(student =>
+                    String(student.student_id)
+                        .toLowerCase() ===
+                    studentId.toLowerCase()
+                );
+
+
+            if (exists) {
+
+                alert(
+                    "Student ID already exists."
+                );
+
+                return;
+
+            }
+
+
+            /* =========================
+               CREATE STUDENT
+            ========================= */
+
+            const newStudent = {
+
+                student_id:
+                    studentId,
+
+                full_name:
+                    fullName,
+
+                course:
+                    course,
+
+                year_level:
+                    yearLevel,
+
+                email:
+                    email,
+
+                contact:
+                    contact,
+
+                status:
+                    "Active",
+
+                scholarship:
+                    false
+
+            };
+
+
+            /* =========================
+               ADD
+            ========================= */
+
+            students.push(
+                newStudent
+            );
+
+
+            /* =========================
+               SAVE
+            ========================= */
+
+            saveStudents(
+                students
+            );
+
+
+            /* =========================
+               REFRESH TABLE
+            ========================= */
+
+            renderStudents();
+
+
+            /* =========================
+               CLOSE MODAL
+            ========================= */
+
+            closeStudentForm();
+
+
+            /* =========================
+               SUCCESS
+            ========================= */
+
+            alert(
+                "Student added successfully!"
+            );
+
+        }
+    );
+
+
+/* ==========================================
+   SEARCH STUDENT
+========================================== */
+
+function searchStudent() {
+
+    const input =
+        document
+            .getElementById(
+                "searchStudent"
+            )
+            .value
+            .toLowerCase();
+
+
+    const rows =
+        document.querySelectorAll(
+            "#studentTable tr"
+        );
+
+
+    rows.forEach(row => {
+
+        const text =
+            row.textContent
+                .toLowerCase();
+
+
+        row.style.display =
+            text.includes(input)
+            ? ""
+            : "none";
+
+    });
+
+}
+
+
+/* ==========================================
+   DELETE STUDENT
+========================================== */
+
+function deleteStudent(id) {
+
+    if (
+        !confirm(
+            "Are you sure you want to delete " +
+            id +
+            "?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    let students =
+        getStudents();
+
+
+    students =
+        students.filter(
+            student =>
+                student.student_id !== id
+        );
+
+
+    saveStudents(
+        students
+    );
+
+
+    renderStudents();
+
+
+    alert(
+        "Student deleted successfully."
+    );
+
+}
+
+
+/* ==========================================
+   EDIT STUDENT
+========================================== */
+
+function editStudent(id) {
+
+    const students =
+        getStudents();
+
+
+    const student =
+        students.find(
+            item =>
+                item.student_id === id
+        );
+
+
+    if (!student) {
+
+        alert(
+            "Student not found."
+        );
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "studentId"
+    ).value =
+        student.student_id;
+
+
+    document.getElementById(
+        "studentName"
+    ).value =
+        student.full_name ||
+        student.name ||
+        "";
+
+
+    document.getElementById(
+        "studentCourse"
+    ).value =
+        student.course || "";
+
+
+    document.getElementById(
+        "studentYear"
+    ).value =
+        student.year_level || "";
+
+
+    document.getElementById(
+        "studentEmail"
+    ).value =
+        student.email || "";
+
+
+    document.getElementById(
+        "studentContact"
+    ).value =
+        student.contact || "";
+
+
+    openStudentForm();
+
+}
+
+
+/* ==========================================
+   ESCAPE HTML
+========================================== */
+
+function escapeHTML(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* ==========================================
+   LOGOUT
+========================================== */
 
 function logout() {
 
-    localStorage.removeItem("loggedIn");
+    localStorage.removeItem(
+        "loggedIn"
+    );
 
-    window.location.href = "index.html";
+    window.location.href =
+        "index.html";
 
 }
+
+
+/* ==========================================
+   LOAD STUDENTS
+========================================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        renderStudents();
+
+    }
+);
 
 </script>
 
